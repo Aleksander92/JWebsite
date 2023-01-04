@@ -1,0 +1,154 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: hsl(3, 72%, 32%);
+  font-size: 16px;
+  font-family: Oxygen, sans-serif;
+}
+
+header {
+   margin-bottom: 1rem;
+   border-bottom: 1px solid hsl(254, 5%, 25%);
+}
+
+p {
+  margin: 0px;
+}
+
+#slogan {
+  font-family: Dancing Script, Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif;
+  font-size: 22px;
+}
+
+.navbar {
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+}
+
+.navbar-brand {
+  margin-right: 2rem;
+}
+
+.nav-link {
+  padding-top: 0em;
+  padding-bottom: 0em;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255,255,255,.80);
+}
+
+.navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover {
+  color: rgba(255,255,255,.99);
+}
+
+.fas {
+  font-size: 1.25em;
+  padding-top: 0.25em;
+}
+
+.fa-utensils {
+  color: tomato;
+}
+
+.fa-briefcase {
+  color: tan;
+}
+
+.fa-smile {
+  color: tan;
+}
+
+#img-div {
+  margin-bottom: 2rem;
+}
+
+#img-cover {
+  display: block;
+  max-width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid #3F0C1F;
+  border-radius: 5px;
+  box-shadow: 0 0 20px #3F0C1F;
+}
+
+.tile {
+  height: 250px;
+  width: 100%;
+  margin-bottom: 15px;
+  position: relative;
+  border: 2px solid #3F0C1F;
+  overflow: hidden;
+}
+.tile:hover {
+  box-shadow: 0 1px 5px 1px #CCCCCC;
+}
+
+#menu-tile {
+  background: url('../img/menu.jpg') no-repeat;
+  background-position: center;
+}
+
+#specials-tile {
+  background: url('../img/specials.jpg') no-repeat;
+  background-position: center;
+}
+
+.tile span {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 1.6em;
+  text-transform: uppercase;
+  background-color: #000;
+  color: #FFF;
+  opacity: .8;
+}
+
+#footer-row-main {
+  margin-bottom: 1rem;
+}
+
+#footer-section-hours > span, #footer-section-address > span {
+  font-size: 1.3em;
+}
+
+#footer-section-testimonials {
+  font-style: italic;
+}
+
+#footer-section-testimonials p:nth-child(2) {
+  margin-top: 25px;
+}
+
+@media (max-width: 767px) {
+  #img-cover {
+    max-width: 100%;
+    border: 0px;
+  }
+
+  #main {
+    max-width: 100%;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .card-footer section {
+    text-align: center;
+  }
+
+  .card-footer section hr {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
