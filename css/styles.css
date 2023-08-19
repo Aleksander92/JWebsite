@@ -3,14 +3,14 @@
 }
 
 body {
-  background-color: hsl(3, 72%, 32%);
+  background-color: hsl(160, 0%, 97%);
   font-size: 16px;
   font-family: Oxygen, sans-serif;
 }
 
-header {
-   margin-bottom: 1rem;
-   border-bottom: 1px solid hsl(254, 5%, 25%);
+#header-nav {
+  background-color: hsl(160, 0%, 100%);
+  border-bottom: 1px solid hsla(240,7%,70%,.35) !important;
 }
 
 p {
@@ -23,8 +23,8 @@ p {
 }
 
 .navbar {
-  padding-top: 0.25em;
-  padding-bottom: 0.25em;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .navbar-brand {
