@@ -11,15 +11,35 @@ body {
 #header-nav {
   background-color: hsl(160, 0%, 100%);
   border-bottom: 1px solid hsla(240,7%,70%,.35) !important;
+  margin-bottom: 2rem;
 }
 
 p {
   margin: 0px;
 }
 
-#slogan {
-  font-family: Dancing Script, Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif;
+#title {
+  font-family: Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif;
   font-size: 22px;
+  font-weight: 400;
+  color: hsl(210, 11%, 14%);
+}
+
+#main {
+  margin: 0 2% 0 2%;
+}
+
+#playfield {
+  padding: 0 10% 0 0;
+}
+
+#playfield-controls {
+  display: flex;
+  justify-content: center;
+}
+
+#playfield-control-button {
+  margin: 0 10px 0 10px;
 }
 
 .navbar {
@@ -31,111 +51,7 @@ p {
   margin-right: 2rem;
 }
 
-.nav-link {
-  padding-top: 0em;
-  padding-bottom: 0em;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-  font-size: 0.9em;
-  text-align: center;
-}
-
-.navbar-dark .navbar-nav .nav-link {
-  color: rgba(255,255,255,.80);
-}
-
-.navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover {
-  color: rgba(255,255,255,.99);
-}
-
-.fas {
-  font-size: 1.25em;
-  padding-top: 0.25em;
-}
-
-.fa-utensils {
-  color: tomato;
-}
-
-.fa-briefcase {
-  color: tan;
-}
-
-.fa-smile {
-  color: tan;
-}
-
-#img-div {
-  margin-bottom: 2rem;
-}
-
-#img-cover {
-  display: block;
-  max-width: 60%;
-  margin-left: auto;
-  margin-right: auto;
-  border: 2px solid #3F0C1F;
-  border-radius: 5px;
-  box-shadow: 0 0 20px #3F0C1F;
-}
-
-.tile {
-  height: 250px;
-  width: 100%;
-  margin-bottom: 15px;
-  position: relative;
-  border: 2px solid #3F0C1F;
-  overflow: hidden;
-}
-.tile:hover {
-  box-shadow: 0 1px 5px 1px #CCCCCC;
-}
-
-#menu-tile {
-  background: url('../img/menu.jpg') no-repeat;
-  background-position: center;
-}
-
-#specials-tile {
-  background: url('../img/specials.jpg') no-repeat;
-  background-position: center;
-}
-
-.tile span {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 100%;
-  text-align: center;
-  font-size: 1.6em;
-  text-transform: uppercase;
-  background-color: #000;
-  color: #FFF;
-  opacity: .8;
-}
-
-#footer-row-main {
-  margin-bottom: 1rem;
-}
-
-#footer-section-hours > span, #footer-section-address > span {
-  font-size: 1.3em;
-}
-
-#footer-section-testimonials {
-  font-style: italic;
-}
-
-#footer-section-testimonials p:nth-child(2) {
-  margin-top: 25px;
-}
-
 @media (max-width: 767px) {
-  #img-cover {
-    max-width: 100%;
-    border: 0px;
-  }
-
   #main {
     max-width: 100%;
     padding-left: 0.75rem;
@@ -151,4 +67,84 @@ p {
     margin-left: auto;
     margin-right: auto;
   }
+}
+
+.button-grid {
+  background-color: #FFFFFF;
+  border: 1px solid rgb(209,213,219);
+  border-radius: .5rem;
+  box-sizing: border-box;
+  color: #111827;
+  font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  padding: .75rem 1rem;
+  text-align: center;
+  text-decoration: none #D1D5DB solid;
+  text-decoration-thickness: auto;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-grid:hover {
+  background-color: rgb(249,250,251);
+}
+
+.button-grid:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.button-grid:focus-visible {
+  box-shadow: none;
+}
+
+.playfield-control-button {
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 3rem;
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+.playfield-control-button:hover {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.playfield-control-button:hover {
+  transform: translateY(-1px);
+}
+
+.playfield-control-button:active {
+  background-color: #F0F0F1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
 }
