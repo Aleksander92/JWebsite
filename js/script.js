@@ -71,14 +71,24 @@ async function fetchAndSet(url, docField, urlFields) {
 async function createGame() {
   response = await fetchUrlGet('https://localhost:7073/create_game?mode=1');
 
-  document.getElementById('attempts').textContent = response['attempts'];
-  document.getElementById('correct-attempts').textContent = response['correctAttempts'];
-  document.getElementById('correct-attempts-percentage').textContent = response['attempts'] == 0 ? 100 : response['correct-attempts'] / resposne['attempts'];
+  localStorage.setItem('id', response['id']);
+
+  setOutput(response);
 }
 
 async function checkAnswerAndMakeNewTask(button) {
   console.log(button.textContent);
-  response = await fetchUrlGet(`https://localhost:7073/check_answer_and_make_new_task?id=1&userAnswer=${button.textContent}`);
+  console.log(localStorage.getItem('id'));
+  response = await fetchUrlGet(`https://localhost:7073/check_answer_and_make_new_task?id=${localStorage.getItem('id')}&userAnswer=${button.textContent}`);
+
+  setOutput(response);
+}
+
+async function setOutput(response) {
+  document.getElementById('task-question').textContent = response['taskQuestion'];
+  document.getElementById('attempts').textContent = response['attempts'];
+  document.getElementById('correct-attempts').textContent = response['correctAttempts'];
+  document.getElementById('correct-attempts-percentage').textContent = (response['attempts'] == 0 ? 100 : response['correctAttempts'] * 100 / response['attempts']).toFixed(2).toString() + '%';
 }
 
 //fetchAndSet('https://jsonplaceholder.typicode.com/posts/1', 'textContent', 'body');
