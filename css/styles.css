@@ -29,17 +29,13 @@ p {
   margin: 0 2% 0 2%;
 }
 
-#playfield {
+#gamefield {
   padding: 0 10% 0 0;
 }
 
-#playfield-controls {
+#gamefield-controls {
   display: flex;
   justify-content: center;
-}
-
-#playfield-control-button {
-  margin: 0 10px 0 10px;
 }
 
 .navbar {
@@ -103,7 +99,7 @@ p {
   box-shadow: none;
 }
 
-.playfield-control-button {
+.gamefield-control-button {
   align-items: center;
   background-color: #FFFFFF;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -118,7 +114,7 @@ p {
   font-weight: 600;
   justify-content: center;
   line-height: 1.25;
-  margin: 0;
+  margin: 0 10px 0 10px;
   min-height: 3rem;
   padding: calc(.875rem - 1px) calc(1.5rem - 1px);
   position: relative;
@@ -131,17 +127,17 @@ p {
   width: auto;
 }
 
-.playfield-control-button:hover {
+.gamefield-control-button:hover {
   border-color: rgba(0, 0, 0, 0.15);
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
   color: rgba(0, 0, 0, 0.65);
 }
 
-.playfield-control-button:hover {
+.gamefield-control-button:hover {
   transform: translateY(-1px);
 }
 
-.playfield-control-button:active {
+.gamefield-control-button:active {
   background-color: #F0F0F1;
   border-color: rgba(0, 0, 0, 0.15);
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
