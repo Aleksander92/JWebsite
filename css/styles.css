@@ -1,11 +1,12 @@
 * {
   box-sizing: border-box;
+  --basic-border-color: rgb(209,213,219);
 }
 
 body {
   background-color: hsl(160, 0%, 97%);
   font-size: 16px;
-  font-family: Oxygen, sans-serif;
+  font-family: Krub, sans-serif;
 }
 
 #header-nav {
@@ -29,13 +30,31 @@ p {
   margin: 0 2% 0 2%;
 }
 
+#current-task {
+  padding: 0 0 0 3%;
+}
+
 #gamefield {
-  padding: 0 10% 0 0;
 }
 
 #gamefield-controls {
   display: flex;
   justify-content: center;
+  margin: 5% 0 0 0;
+}
+
+#gamefield-title {
+  font-size: 22px;
+  margin: 0 0 1em 0;
+}
+
+#task-title {
+  font-size: 20px;
+  padding: 3em 0 0.5em 0;
+}
+
+#task-question {
+  width: auto;
 }
 
 .navbar {
@@ -99,6 +118,62 @@ p {
   box-shadow: none;
 }
 
+.basic-form {
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85);
+  display: inline-flex;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0 10px 0 10px;
+  min-height: 3rem;
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+}
+
+.basic-button-actions:hover {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.basic-button-actions:hover {
+  transform: translateY(-1px);
+}
+
+.basic-button-actions:active {
+  background-color: #F0F0F1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
+
+  -webkit-animation: glowing 1300ms infinite;
+  -moz-animation: glowing 1300ms infinite;
+  -o-animation: glowing 1300ms infinite;
+  animation: glowing 1300ms infinite;
+}
+
+.tile-description {
+  border-width: 5px;
+  font-size: 20px;
+}
+
+.game-modes-button {
+  border-top-width: 0px;
+  font-weight: 600;
+}
+
 .gamefield-control-button {
   align-items: center;
   background-color: #FFFFFF;
@@ -144,3 +219,67 @@ p {
   color: rgba(0, 0, 0, 0.65);
   transform: translateY(0);
 }
+
+/*/////////////////////////////////////////////////////////////////////////////////////////////
+//                                        ANIMATIONS
+/////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.glow.class-glow-correct {
+  animation-duration: 0.25s;
+  animation-name: glow-correct;
+}
+
+.glow.class-glow-incorrect {
+  animation-duration: 0.25s;
+  animation-name: glow-incorrect;
+}
+
+@keyframes glow-correct {
+  0% {
+    box-shadow: 0 0 3px hsl(120, 66%, 38%);
+  }
+  50% {
+    box-shadow: 0 0 15px hsl(120, 86%, 42%);
+  }
+  100% {
+    box-shadow: 0 0 3px hsl(120, 66%, 38%);
+  }
+}
+@-webkit-keyframes glow-correct {
+  0% {
+    box-shadow: 0 0 3px hsl(120, 66%, 38%);
+  }
+  50% {
+    box-shadow: 0 0 15px hsl(120, 86%, 42%);
+  }
+  100% {
+    box-shadow: 0 0 3px hsl(120, 66%, 38%);
+  }
+}
+
+@keyframes glow-incorrect {
+  0% {
+    box-shadow: 0 0 3px hsl(0, 73%, 45%);
+  }
+  50% {
+    box-shadow: 0 0 15px hsl(0, 85%, 49%);
+  }
+  100% {
+    box-shadow: 0 0 3px hsl(0, 73%, 45%);
+  }
+}
+@-webkit-keyframes glow-correct {
+  0% {
+    box-shadow: 0 0 3px hsl(0, 73%, 45%);
+  }
+  50% {
+    box-shadow: 0 0 15px hsl(0, 85%, 49%);
+  }
+  100% {
+    box-shadow: 0 0 3px hsl(0, 73%, 45%);
+  }
+}
+
+/*/////////////////////////////////////////////////////////////////////////////////////////////
+//                                      ANIMATIONS END
+/////////////////////////////////////////////////////////////////////////////////////////////*/
