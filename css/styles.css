@@ -141,27 +141,26 @@ p {
   vertical-align: baseline;
 }
 
-.basic-button-actions:hover {
+.basic-form:disabled,
+.basic-form[disabled]{
+  border: 1px solid rgba(0, 0, 0, 0);
+  color: rgba(0, 0, 0, 0.4);
+  cursor: default;
+}
+
+.basic-button-actions:hover:enabled {
   border-color: rgba(0, 0, 0, 0.15);
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
   color: rgba(0, 0, 0, 0.65);
-}
-
-.basic-button-actions:hover {
   transform: translateY(-1px);
 }
 
-.basic-button-actions:active {
+.basic-button-actions:active:enabled {
   background-color: #F0F0F1;
   border-color: rgba(0, 0, 0, 0.15);
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
   color: rgba(0, 0, 0, 0.65);
   transform: translateY(0);
-
-  -webkit-animation: glowing 1300ms infinite;
-  -moz-animation: glowing 1300ms infinite;
-  -o-animation: glowing 1300ms infinite;
-  animation: glowing 1300ms infinite;
 }
 
 .tile-description {
@@ -202,17 +201,21 @@ p {
   width: auto;
 }
 
-.gamefield-control-button:hover {
+.gamefield-control-button:disabled,
+.gamefield-control-button[disabled]{
+  border: 1px solid rgba(0, 0, 0, 0);
+  color: rgba(0, 0, 0, 0.4);
+  cursor: default;
+}
+
+.gamefield-control-button:hover:enabled {
   border-color: rgba(0, 0, 0, 0.15);
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
   color: rgba(0, 0, 0, 0.65);
-}
-
-.gamefield-control-button:hover {
   transform: translateY(-1px);
 }
 
-.gamefield-control-button:active {
+.gamefield-control-button:active:enabled {
   background-color: #F0F0F1;
   border-color: rgba(0, 0, 0, 0.15);
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
