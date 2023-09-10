@@ -10,46 +10,46 @@
 
 @keyframes glow-correct {
   0% {
-    box-shadow: 0 0 3px hsl(120, 66%, 38%);
+    box-shadow: 0 0 3px hsl(182, 80%, 40%);
   }
   50% {
-    box-shadow: 0 0 15px hsl(120, 86%, 42%);
+    box-shadow: 0 0 15px hsl(182, 89%, 45%);
   }
   100% {
-    box-shadow: 0 0 3px hsl(120, 66%, 38%);
+    box-shadow: 0 0 3px hsl(182, 80%, 40%);
   }
 }
 @-webkit-keyframes glow-correct {
   0% {
-    box-shadow: 0 0 3px hsl(120, 66%, 38%);
+    box-shadow: 0 0 3px hsl(182, 80%, 40%);
   }
   50% {
-    box-shadow: 0 0 15px hsl(120, 86%, 42%);
+    box-shadow: 0 0 15px hsl(182, 89%, 45%);
   }
   100% {
-    box-shadow: 0 0 3px hsl(120, 66%, 38%);
+    box-shadow: 0 0 3px hsl(182, 80%, 40%);
   }
 }
 
 @keyframes glow-incorrect {
   0% {
-    box-shadow: 0 0 3px hsl(0, 73%, 45%);
+    box-shadow: 0 0 3px hsl(282, 67%, 34%);
   }
   50% {
-    box-shadow: 0 0 15px hsl(0, 85%, 49%);
+    box-shadow: 0 0 15px hsl(282, 82%, 47%);
   }
   100% {
-    box-shadow: 0 0 3px hsl(0, 73%, 45%);
+    box-shadow: 0 0 3px hsl(282, 67%, 34%);
   }
 }
 @-webkit-keyframes glow-correct {
   0% {
-    box-shadow: 0 0 3px hsl(0, 73%, 45%);
+    box-shadow: 0 0 3px hsl(282, 67%, 34%);
   }
   50% {
-    box-shadow: 0 0 15px hsl(0, 85%, 49%);
+    box-shadow: 0 0 15px hsl(282, 82%, 47%);
   }
   100% {
-    box-shadow: 0 0 3px hsl(0, 73%, 45%);
+    box-shadow: 0 0 3px hsl(282, 67%, 34%);
   }
 }
