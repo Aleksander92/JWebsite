@@ -1,0 +1,55 @@
+.glow.class-glow-correct {
+  animation-duration: 0.25s;
+  animation-name: glow-correct;
+}
+
+.glow.class-glow-incorrect {
+  animation-duration: 0.25s;
+  animation-name: glow-incorrect;
+}
+
+@keyframes glow-correct {
+  0% {
+    box-shadow: 0 0 3px hsl(120, 66%, 38%);
+  }
+  50% {
+    box-shadow: 0 0 15px hsl(120, 86%, 42%);
+  }
+  100% {
+    box-shadow: 0 0 3px hsl(120, 66%, 38%);
+  }
+}
+@-webkit-keyframes glow-correct {
+  0% {
+    box-shadow: 0 0 3px hsl(120, 66%, 38%);
+  }
+  50% {
+    box-shadow: 0 0 15px hsl(120, 86%, 42%);
+  }
+  100% {
+    box-shadow: 0 0 3px hsl(120, 66%, 38%);
+  }
+}
+
+@keyframes glow-incorrect {
+  0% {
+    box-shadow: 0 0 3px hsl(0, 73%, 45%);
+  }
+  50% {
+    box-shadow: 0 0 15px hsl(0, 85%, 49%);
+  }
+  100% {
+    box-shadow: 0 0 3px hsl(0, 73%, 45%);
+  }
+}
+@-webkit-keyframes glow-correct {
+  0% {
+    box-shadow: 0 0 3px hsl(0, 73%, 45%);
+  }
+  50% {
+    box-shadow: 0 0 15px hsl(0, 85%, 49%);
+  }
+  100% {
+    box-shadow: 0 0 3px hsl(0, 73%, 45%);
+  }
+}
