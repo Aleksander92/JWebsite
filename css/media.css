@@ -1,0 +1,7 @@
+@media (max-width: 992px) {
+  * {
+    --font-size: 14px;
+    --font-size-tile: 18px;
+    --font-size-title: 20px;
+  }
+}

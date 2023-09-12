@@ -137,7 +137,10 @@ async function checkAnswerAndMakeNewTask(button) {
 async function processResponse(response) {
   localStorage.setItem('taskQuestion', response['taskQuestion']);
 
-  document.getElementById('task-question').textContent = response['taskQuestion'];
+  var taskQuestionElements = document.getElementsByClassName('task-question');
+  for (e of taskQuestionElements) {
+    e.textContent = response['taskQuestion'];
+  }
   document.getElementById('attempts').textContent = response['attempts'];
   document.getElementById('correct-attempts').textContent = response['correctAttempts'];
   document.getElementById('correct-attempts-percentage').textContent = (response['attempts'] == 0 ? 100 : response['correctAttempts'] * 100 / response['attempts']).toFixed(2).toString() + '%';

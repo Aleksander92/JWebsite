@@ -9,14 +9,17 @@
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/all.min.css">
+
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Cabin&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Krub:wght@200;300&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/media.css">
 
   <link rel="icon" href="img/favicon.png">
 </head>
@@ -43,14 +46,14 @@
       </button>
     </div>
 
-    <div class="container col-2" id="current-task">
+    <div class="container d-none d-xl-block col-2" id="task">
       <div class="container text-center" id="task-title">Current task</div>
       <div class="d-flex justify-content-center">
-        <span class="container basic-form" id="task-question">a</span>
+        <span class="container basic-form task-question" id="task-question">a</span>
       </div>
     </div>
 
-    <div class="container col-4" id="gamefield">
+    <div class="container col-6 col-xl-4" id="gamefield">
       <div class="container text-center" id="gamefield-title">Choose the correct translation</div>
 
       <div class="container" id="grid">
@@ -63,15 +66,20 @@
     </div>
 
     <div class="container col-2">
-      <span class="container row justify-content-center basic-form tile-description">
-        Statistics
-      </span>
-      <span class="basic-form" id="attempts" style="width: 100%; border-bottom: 0">a</span>
-      <span class="basic-form" id="correct-attempts" style="width: 100%; border-bottom: 0">b</span>
-      <span class="basic-form" id="correct-attempts-percentage" style="width: 100%">c</span>
+      <span class="container justify-content-center basic-form tile-description">Statistics</span>
+      <span class="container justify-content-center basic-form stats-tile" id="attempts">a</span>
+      <span class="container justify-content-center basic-form stats-tile" id="correct-attempts">b</span>
+      <span class="container justify-content-center basic-form stats-tile" id="correct-attempts-percentage">c</span>
+
+      <div class="container d-xl-none" id="task">
+        <div class="container text-center" id="task-title">Current task</div>
+        <div class="d-flex justify-content-center">
+          <span class="container basic-form task-question" id="task-question">a</span>
+        </div>
+      </div>
     </div>
 
-    <div class="container col-2"></div>
+    <div class="container d-none d-xl-block col-xl-2"></div>
   </div>
 
   <footer>
