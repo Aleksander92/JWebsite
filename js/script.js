@@ -34,7 +34,7 @@ function anythingToEnglish(s) {
   return hiraganaToEnglish(s);
 }
 
-async function createGrid(mode) {
+function createGrid(mode) {
   var rows = document.getElementsByClassName('grid-row');
   for (i = rows.length - 1; i > -1; --i) {
     rows[i].remove();
@@ -86,6 +86,30 @@ async function createGrid(mode) {
 //                    </ Grid generation and alphabet working functions >
 //////////////////////////////////////////////////////////////////////////////////////////////
 
+function initLocalStorage() {
+  localStorage.setItem('mode', 0);
+  localStorage.setItem('attempts', 0);
+  localStorage.setItem('correctAttempts', 0);
+  localStorage.setItem('curTaskQuestion', '')
+  localStorage.setItem('curTaskAnswer', '')
+  localStorage.setItem('prvTaskQuestion', '')
+  localStorage.setItem('prvTaskAnswer', '')
+}
+
+function createTask() {
+  mode = localStorage.getItem('mode')
+  ind = Math.floor(Math.random() * alphabet.length)
+  localStorage.setItem('prvTaskQuestion', localStorage.getItem('curQuestion'));
+  localStorage.setItem('prvTaskAnswer', localStorage.getItem('curAnswer'));
+  localStorage.setItem('curTaskQuestion', alphabet[ind][mode])
+  localStorage.setItem('curTaskAnswer', alphabet[ind][mode ^ 1])
+
+  var taskQuestionElements = document.getElementsByClassName('task-question');
+  for (e of taskQuestionElements) {
+    e.textContent = localStorage.getItem('curTaskQuestion');
+  }
+}
+
 async function fetchUrlGet(url) {
   var response = await fetch(url, {
     method: 'GET',
@@ -96,7 +120,7 @@ async function fetchUrlGet(url) {
   return response;
 }
 
-async function fetchAndSet(url, docField, urlFields) {
+/*async function fetchAndSet(url, docField, urlFields) {
   response = await fetchUrlGet(url);
 
   console.log(urlFields);
@@ -114,46 +138,51 @@ async function fetchAndSet(url, docField, urlFields) {
   }
 
   document.getElementById('out1')[docField] = response;
-}
+}*/
 
-async function createGame(mode) {
+function createGame(mode) {
   localStorage.setItem('mode', mode);
   createGrid(mode);
+  createTask();
+  showStats();
 
-  response = await fetchUrlGet(`https://localhost:7073/create_game?mode=${mode}`);
-  localStorage.setItem('id', response['id']);
-  processResponse(response);
+  // response = await fetchUrlGet(`https://localhost:7073/create_game?mode=${mode}`);
+  // localStorage.setItem('id', response['id']);
+  // processResponse(response);
 }
 
-async function checkAnswerAndMakeNewTask(button) {
+function checkAnswerAndMakeNewTask(button) {
+  // response = await fetchUrlGet(`https://localhost:7073/check_answer_and_make_new_task?id=${localStorage.getItem('id')}&userAnswer=${button.textContent}`);
   localStorage.setItem('userAnswer', button.textContent);
-
-  response = await fetchUrlGet(`https://localhost:7073/check_answer_and_make_new_task?id=${localStorage.getItem('id')}&userAnswer=${button.textContent}`);
-
-  document.getElementById('previous-task-question').textContent = localStorage.getItem('taskQuestion');
-  document.getElementById('previous-task-answer').textContent = response['prevTaskAnswer'];
-
-  highlightGridButton(response['prevTaskAnswer']);
-
-  processResponse(response);
+  document.getElementById('previous-task-question').textContent = localStorage.getItem('curTaskQuestion');
+  document.getElementById('previous-task-answer').textContent = localStorage.getItem('curTaskAnswer');
+  highlightGridButton();
+  updateStats();
+  showStats();
+  createTask();
 }
 
-async function processResponse(response) {
-  localStorage.setItem('taskQuestion', response['taskQuestion']);
-
-  var taskQuestionElements = document.getElementsByClassName('task-question');
-  for (e of taskQuestionElements) {
-    e.textContent = response['taskQuestion'];
+function updateStats() {
+  var isCorrectAttempt = localStorage.getItem('userAnswer') == localStorage.getItem('curTaskAnswer');
+  attempts = + localStorage.getItem('attempts') + 1;
+  correctAttempts = + localStorage.getItem('correctAttempts');
+  if (isCorrectAttempt) {
+    correctAttempts += 1;
   }
-  var correctAttemptsPercentage = (response['attempts'] == 0 ? 0 : response['correctAttempts'] * 100 / response['attempts']).toFixed(2).toString() + '%';
-  document.getElementById('attempts').textContent = response['correctAttempts'] + '/' + response['attempts'] + ' (' + correctAttemptsPercentage + ')';
-  // document.getElementById('correct-attempts').textContent = response['correctAttempts'];
-  // document.getElementById('correct-attempts-percentage').textContent = (response['attempts'] == 0 ? 100 : response['correctAttempts'] * 100 / response['attempts']).toFixed(2).toString() + '%';
+  localStorage.setItem('attempts', attempts);
+  localStorage.setItem('correctAttempts', correctAttempts);
 }
 
-function highlightGridButton(prevTaskAnswer) {
-  document.getElementById('button-grid-' + anythingToEnglish(localStorage.getItem('taskQuestion'))).classList.toggle('class-glow-correct');
-  if (localStorage.getItem('userAnswer') != prevTaskAnswer) {
+function showStats() {
+  attempts = + localStorage.getItem('attempts');
+  correctAttempts = + localStorage.getItem('correctAttempts');
+  var correctAttemptsPercentage = (attempts == 0 ? 0 : correctAttempts * 100 / attempts).toFixed(2).toString() + '%';
+  document.getElementById('attempts').textContent = correctAttempts + '/' + attempts + ' (' + correctAttemptsPercentage + ')';
+}
+
+function highlightGridButton() {
+  document.getElementById('button-grid-' + anythingToEnglish(localStorage.getItem('curTaskAnswer'))).classList.toggle('class-glow-correct');
+  if (localStorage.getItem('userAnswer') != localStorage.getItem('curTaskAnswer')) {
     document.getElementById('button-grid-' + anythingToEnglish(localStorage.getItem('userAnswer'))).classList.toggle('class-glow-incorrect');
   }
 }
@@ -165,13 +194,7 @@ document.getElementById('game-modes-button-hir-to-eng').onclick = function () {
   createGame(0);
 };
 
-//fetchAndSet('https://jsonplaceholder.typicode.com/posts/1', 'textContent', 'body');
-
-//fetchAndSet('https://localhost:7073/states', 'textContent', [0, 'id']);
-
-createGame(1);
-
-function myFunction() {
+function gameModesShowToggle() {
   document.getElementById("myDropdown").classList.toggle("show");
 }
 
@@ -188,3 +211,14 @@ window.onclick = function (event) {
     }
   }
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//                                          Main
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+//fetchAndSet('https://jsonplaceholder.typicode.com/posts/1', 'textContent', 'body');
+
+//fetchAndSet('https://localhost:7073/states', 'textContent', [0, 'id']);
+
+initLocalStorage();
+createGame(1);
