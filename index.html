@@ -25,7 +25,7 @@
 </head>
 
 <body>
-  <nav id="header-nav" class="navbar navbar-expand-md">
+  <nav class="navbar navbar-expand-md" id="header-nav">
     <div class="container-fluid mt-0 mb-0 ms-3 me-3">
       <a href="index.html" class="navbar-brand" id="title">
         <span>JQuiz</span>
@@ -33,69 +33,129 @@
     </div>
   </nav>
 
-  <div class="d-flex" id="main">
-    <div class="container col-2">
-      <span class="container row justify-content-center basic-form tile-description">
-        Game modes
-      </span>
-      <button class="container row justify-content-center basic-form basic-button-actions game-modes-button" id="game-modes-button-eng-to-hir">
-        a -> あ
-      </button>
-      <button class="container row justify-content-center basic-form basic-button-actions game-modes-button" id="game-modes-button-hir-to-eng">
-        あ -> a
-      </button>
-    </div>
+  <!-- Gamefield for large screens -->
+  <div class="container-fluid main">
+    <div class="container-fluid row row-main-up mx-0 p-0">
+      <div class="col-4 col-lg-2 p-0">
+        <button onclick="myFunction()" class="basic-form basic-button-actions dropbtn">Game modes</button>
+        <div id="myDropdown" class="dropdown-content">
+          <button class="justify-content-center basic-form basic-button-actions game-modes-button" id="game-modes-button-eng-to-hir">
+            a -> あ
+          </button>
+          <button class="justify-content-center basic-form basic-button-actions game-modes-button" id="game-modes-button-hir-to-eng">
+            あ -> a
+          </button>
+        </div>
+      </div>
 
-    <div class="container d-none d-xl-block col-2" id="task">
-      <div class="container text-center" id="task-title">Current task</div>
-      <div class="d-flex justify-content-center">
-        <span class="container basic-form task-question" id="task-question">a</span>
+      <div class="col-2 col-lg-4 p-0">
+        <!--<div class="d-flex task-title m-auto">Task</div>
+      <div class="d-flex justify-content-center m-auto">
+        <span class="container basic-form task-question"></span>
+      </div>-->
+      </div>
+
+      <div class="col-2 col-lg-3 col-xl-4 p-0">
+        <!--<div class="d-flex task-title m-auto">Task</div>
+      <div class="d-flex justify-content-center m-auto">
+        <span class="container basic-form task-question"></span>
+      </div>-->
+      </div>
+
+      <div class="container-fluid col-4 col-lg-3 col-xl-2 p-0">
+        <span class="container justify-content-center basic-form stats-tile" id="attempts">a</span>
+        <!--<span class="container justify-content-center basic-form tile-description">Statistics</span>
+      <span class="container justify-content-center basic-form stats-tile" id="attempts">a</span>
+      <span class="container justify-content-center basic-form stats-tile" id="correct-attempts">b</span>
+      <span class="container justify-content-center basic-form stats-tile" id="correct-attempts-percentage">c</span>-->
       </div>
     </div>
 
-    <div class="container col-6 col-xl-4" id="gamefield">
-      <div class="container text-center" id="gamefield-title">Choose the correct translation</div>
+    <div class="container-fluid row row-main-grid">
+      <div class="container-fluid col col-md-6 col-xl-4" id="gamefield">
+        <div class="container-fluid text-center" id="gamefield-title">Choose the correct translation</div>
 
-      <div class="container" id="grid">
-      </div>
-
-      <!--<div class="container" id="gamefield-controls">
+        <div class="container-fluid grid"></div>
+        <!--<div class="container" id="grid"></div>-->
+        <!--<div class="container" id="gamefield-controls">
         <button class="gamefield-control-button" id="gamefield-control-next" disabled>Next</button>
         <button class="gamefield-control-button" id="gamefield-control-skip">Skip</button>
       </div>-->
+      </div>
     </div>
 
-    <div class="container col-2">
-      <span class="container justify-content-center basic-form tile-description">Statistics</span>
-      <span class="container justify-content-center basic-form stats-tile" id="attempts">a</span>
-      <span class="container justify-content-center basic-form stats-tile" id="correct-attempts">b</span>
-      <span class="container justify-content-center basic-form stats-tile" id="correct-attempts-percentage">c</span>
-
-      <div class="container d-xl-none" id="task">
-        <div class="container text-center" id="task-title">Current task</div>
+    <div class="container-fluid row row-main-bottom">
+      <div class="col">
+        <div class="d-flex justify-content-center task-title">Current Task</div>
         <div class="d-flex justify-content-center">
-          <span class="container basic-form task-question" id="task-question">a</span>
+          <span class="container basic-form task-question"></span>
         </div>
       </div>
     </div>
 
-    <div class="container d-none d-xl-block col-xl-2"></div>
+    <div class="container-fluid row row-main-bottom">
+      <div class="col">
+        <div class="d-flex justify-content-center task-title">Previous Task</div>
+        <div class="d-flex justify-content-center">
+          <span class="basic-form previous-task-question" id="previous-task-question"></span>
+          <span class="basic-form previous-task-answer" id="previous-task-answer"></span>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- Gamefield for phones -->
+  <!--<div class="container-fluid d-md-none main">
+    <div class="row mx-0">
+      <div class="col">
+        <button onclick="myFunction()" class="basic-form basic-button-actions dropbtn">Game modes</button>
+        <div id="myDropdown" class="dropdown-content">
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="container text-center task-title task-title-mobile">Task</div>
+        <div class="d-flex justify-content-center">
+          <span class="container basic-form task-question"></span>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="row">
+          <span class="container justify-content-center basic-form tile-description">Statistics</span>
+          <span class="container justify-content-center basic-form stats-tile" id="attempts">a</span>
+          <span class="container justify-content-center basic-form stats-tile" id="correct-attempts">b</span>
+          <span class="container justify-content-center basic-form stats-tile" id="correct-attempts-percentage">c</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row mx-0">
+      <div class="container col" id="gamefield">
+        <div class="container-fluid text-center" id="gamefield-title">Choose the correct translation</div>
+
+        <div class="container grid"></div>
+      </div>
+    </div>
+  </div>-->
 
   <footer>
     <div class="container">
       <div class="container">
         <div class="d-flex justify-content-center">
           <img src="img/telegram.png" alt="telegram" width="21" height="21" style="margin: 0 1px 0 0">
-          <span>@aleksander_92</span>
+          <span><a href="https://t.me/aleksander_92" style="color: black">@aleksander_92</a></span>
         </div>
       </div>
-      <div class="container">
+      <!--<div class="container">
         <div class="d-flex justify-content-center">
           <img src="img/linkedin.png" alt="linkedin" width="21" height="21" style="margin: 0 3px 0 0">
           <a href="https://www.linkedin.com/in/alexander-krasnoselskikh-53035544/" style="color: black">Aleksander</a>
         </div>
-      </div>
+      </div>-->
     </div>
   </footer>
 

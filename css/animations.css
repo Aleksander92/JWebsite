@@ -1,55 +1,55 @@
 .glow.class-glow-correct {
-  animation-duration: 0.25s;
+  animation-duration: 0.4s;
   animation-name: glow-correct;
 }
 
 .glow.class-glow-incorrect {
-  animation-duration: 0.25s;
+  animation-duration: 0.4s;
   animation-name: glow-incorrect;
 }
 
 @keyframes glow-correct {
   0% {
-    box-shadow: 0 0 3px hsl(182, 80%, 40%);
+    box-shadow: 0 0 0px hsl(182, 80%, 40%);
   }
   50% {
     box-shadow: 0 0 15px hsl(182, 89%, 45%);
   }
   100% {
-    box-shadow: 0 0 3px hsl(182, 80%, 40%);
+    box-shadow: 0 0 0px hsl(182, 80%, 40%);
   }
 }
 @-webkit-keyframes glow-correct {
   0% {
-    box-shadow: 0 0 3px hsl(182, 80%, 40%);
+    box-shadow: 0 0 0px hsl(182, 80%, 40%);
   }
   50% {
     box-shadow: 0 0 15px hsl(182, 89%, 45%);
   }
   100% {
-    box-shadow: 0 0 3px hsl(182, 80%, 40%);
+    box-shadow: 0 0 0px hsl(182, 80%, 40%);
   }
 }
 
 @keyframes glow-incorrect {
   0% {
-    box-shadow: 0 0 3px hsl(282, 67%, 34%);
+    box-shadow: 0 0 0px hsl(282, 67%, 34%);
   }
   50% {
     box-shadow: 0 0 15px hsl(282, 82%, 47%);
   }
   100% {
-    box-shadow: 0 0 3px hsl(282, 67%, 34%);
+    box-shadow: 0 0 0px hsl(282, 67%, 34%);
   }
 }
 @-webkit-keyframes glow-correct {
   0% {
-    box-shadow: 0 0 3px hsl(282, 67%, 34%);
+    box-shadow: 0 0 0px hsl(282, 67%, 34%);
   }
   50% {
     box-shadow: 0 0 15px hsl(282, 82%, 47%);
   }
   100% {
-    box-shadow: 0 0 3px hsl(282, 67%, 34%);
+    box-shadow: 0 0 0px hsl(282, 67%, 34%);
   }
 }

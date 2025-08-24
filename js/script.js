@@ -35,14 +35,15 @@ function anythingToEnglish(s) {
 }
 
 async function createGrid(mode) {
-  var grid = document.getElementById('grid');
-  var gapUsed = false;
-  var alphabetTextContentIndex = (mode ^ 1);
-
   var rows = document.getElementsByClassName('grid-row');
   for (i = rows.length - 1; i > -1; --i) {
     rows[i].remove();
   }
+
+  var grid = document.getElementsByClassName('grid')[0];
+
+  var gapUsed = false;
+  var alphabetTextContentIndex = (mode ^ 1);
 
   for (var i = 0; i < alphabet.length;) {
     var row = document.createElement('div');
@@ -129,6 +130,9 @@ async function checkAnswerAndMakeNewTask(button) {
 
   response = await fetchUrlGet(`https://localhost:7073/check_answer_and_make_new_task?id=${localStorage.getItem('id')}&userAnswer=${button.textContent}`);
 
+  document.getElementById('previous-task-question').textContent = localStorage.getItem('taskQuestion');
+  document.getElementById('previous-task-answer').textContent = response['prevTaskAnswer'];
+
   highlightGridButton(response['prevTaskAnswer']);
 
   processResponse(response);
@@ -141,9 +145,10 @@ async function processResponse(response) {
   for (e of taskQuestionElements) {
     e.textContent = response['taskQuestion'];
   }
-  document.getElementById('attempts').textContent = response['attempts'];
-  document.getElementById('correct-attempts').textContent = response['correctAttempts'];
-  document.getElementById('correct-attempts-percentage').textContent = (response['attempts'] == 0 ? 100 : response['correctAttempts'] * 100 / response['attempts']).toFixed(2).toString() + '%';
+  var correctAttemptsPercentage = (response['attempts'] == 0 ? 0 : response['correctAttempts'] * 100 / response['attempts']).toFixed(2).toString() + '%';
+  document.getElementById('attempts').textContent = response['correctAttempts'] + '/' + response['attempts'] + ' (' + correctAttemptsPercentage + ')';
+  // document.getElementById('correct-attempts').textContent = response['correctAttempts'];
+  // document.getElementById('correct-attempts-percentage').textContent = (response['attempts'] == 0 ? 100 : response['correctAttempts'] * 100 / response['attempts']).toFixed(2).toString() + '%';
 }
 
 function highlightGridButton(prevTaskAnswer) {
@@ -164,7 +169,22 @@ document.getElementById('game-modes-button-hir-to-eng').onclick = function () {
 
 //fetchAndSet('https://localhost:7073/states', 'textContent', [0, 'id']);
 
-/*document.getElementById('gamefield-control-next').onclick = function () { console.log('fuck you'); };
-document.getElementById('gamefield-control-skip').onclick = function () { console.log('fuck you'); };*/
-
 createGame(1);
+
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function (event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}

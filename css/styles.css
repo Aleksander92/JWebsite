@@ -30,7 +30,7 @@ body {
 #header-nav {
   background-color: hsl(160, 0%, 100%);
   border-bottom: 1px solid hsla(240,7%,70%,.35) !important;
-  margin-bottom: 2rem;
+  /*margin-bottom: 2rem;*/
 }
 
 p {
@@ -44,12 +44,9 @@ p {
   color: hsl(210, 11%, 14%);
 }
 
-#main {
-  margin: 0 2% 0 2%;
-}
-
-#task {
-  padding: 0 0 0 1%;
+.main {
+  margin: 0 0 0 0;
+  padding: 0 0% 0 0%;
 }
 
 #gamefield {
@@ -66,12 +63,30 @@ p {
   margin: 0 0 1em 0;
 }
 
-#task-title {
-  font-size: var(--font-size-tile);
-  padding: 3em 0 0.5em 0;
+.task {
+  display: flex;
+  padding: 0 0 0 0%;
 }
 
-#task-question {
+.task-title {
+  font-size: var(--font-size-tile);
+  padding: 0 0 0 0;
+}
+
+.task-title-mobile {
+  padding: 0 0 0.5em 0;
+}
+
+.task-question {
+  width: auto;
+}
+
+.previous-task-question {
+  margin-right: 1em;
+  width: auto;
+}
+
+.previous-task-answer {
   width: auto;
 }
 
@@ -176,6 +191,17 @@ p {
   border-top-width: 0px;
 }
 
+.row-main-up {
+   margin-bottom: 1em;
+}
+
+.row-main-grid {
+   margin-bottom: 1em;
+}
+
+.row-main-bottom {
+}
+
 .gamefield-control-button {
   align-items: center;
   background-color: #FFFFFF;
@@ -238,3 +264,22 @@ footer {
   right: 0;
   text-align: center;
 }
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content button {
+  color: black;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
