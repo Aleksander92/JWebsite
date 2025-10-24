@@ -154,8 +154,17 @@ function createGame(mode) {
 function checkAnswerAndMakeNewTask(button) {
   // response = await fetchUrlGet(`https://localhost:7073/check_answer_and_make_new_task?id=${localStorage.getItem('id')}&userAnswer=${button.textContent}`);
   localStorage.setItem('userAnswer', button.textContent);
-  document.getElementById('previous-task-question').textContent = localStorage.getItem('curTaskQuestion');
-  document.getElementById('previous-task-answer').textContent = localStorage.getItem('curTaskAnswer');
+
+  var previousTaskQuestions = document.getElementsByClassName("previous-task-question");
+  for (previousTaskQuestion of previousTaskQuestions) {
+    previousTaskQuestion.textContent = localStorage.getItem("curTaskQuestion");
+  }
+
+  var previousTaskAnswers = document.getElementsByClassName("previous-task-answer");
+  for (previousTaskAnswer of previousTaskAnswers) {
+    previousTaskAnswer.textContent = localStorage.getItem("curTaskAnswer");
+  }
+
   highlightGridButton();
   updateStats();
   showStats();
@@ -177,7 +186,11 @@ function showStats() {
   attempts = + localStorage.getItem('attempts');
   correctAttempts = + localStorage.getItem('correctAttempts');
   var correctAttemptsPercentage = (attempts == 0 ? 0 : correctAttempts * 100 / attempts).toFixed(2).toString() + '%';
-  document.getElementById('attempts').textContent = correctAttempts + '/' + attempts + ' (' + correctAttemptsPercentage + ')';
+
+  var statsTiles = document.getElementsByClassName("stats-tile");
+  for (statsTile of statsTiles) {
+    statsTile.textContent = correctAttempts + '/' + attempts + ' (' + correctAttemptsPercentage + ')';
+  }
 }
 
 function highlightGridButton() {
@@ -187,12 +200,18 @@ function highlightGridButton() {
   }
 }
 
-document.getElementById('game-modes-button-eng-to-hir').onclick = function () {
-  createGame(1);
-};
-document.getElementById('game-modes-button-hir-to-eng').onclick = function () {
-  createGame(0);
-};
+var engToHirButtons = document.getElementsByClassName("game-modes-button-eng-to-hir");
+for (b of engToHirButtons) {
+  b.onclick = function () {
+    createGame(1);
+  };
+}
+var hirToEngButtons = document.getElementsByClassName("game-modes-button-hir-to-eng");
+for (b of hirToEngButtons) {
+  b.onclick = function () {
+    createGame(0);
+  };
+}
 
 function gameModesShowToggle() {
   document.getElementById("myDropdown").classList.toggle("show");
@@ -211,6 +230,26 @@ window.onclick = function (event) {
     }
   }
 }
+
+// Toggle main dropdown (hamburger)
+document.getElementById('menuToggle').addEventListener('click', function () {
+  document.getElementById('menuDropdown').classList.toggle('d-none');
+});
+
+// Toggle Game Modes submenu
+document.getElementById('gameModesToggle').addEventListener('click', function () {
+  document.getElementById('gameModesMenu').classList.toggle('d-none');
+});
+
+// Optional: close dropdown when clicking outside
+document.addEventListener('click', function (event) {
+  const dropdown = document.getElementById('menuDropdown');
+  const menuToggle = document.getElementById('menuToggle');
+
+  if (!dropdown.contains(event.target) && !menuToggle.contains(event.target)) {
+    dropdown.classList.add('d-none');
+  }
+});
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                          Main

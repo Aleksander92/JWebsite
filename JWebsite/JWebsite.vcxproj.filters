@@ -24,6 +24,9 @@
     <None Include="..\css\styles.css">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="..\about.html">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\commands.txt">

@@ -23,14 +23,13 @@ body {
   font-size: var(--font-size);
   font-family: Krub, sans-serif;
   min-height: 100%;          /* for the footer to be at the bottom */
-  padding-bottom: 5rem;      /* Space available between last element and bottom border of the page */
+  padding-bottom: 0rem;      /* Space available between last element and bottom border of the page */
   position: relative;        /* for the footer to move with the page size */
 }
 
 #header-nav {
   background-color: hsl(160, 0%, 100%);
   border-bottom: 1px solid hsla(240,7%,70%,.35) !important;
-  /*margin-bottom: 2rem;*/
 }
 
 p {
@@ -41,7 +40,7 @@ p {
   font-family: Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif;
   font-size: 22px;
   font-weight: 400;
-  color: hsl(210, 11%, 14%);
+  color: hsl(210, 11%, 0%);
 }
 
 .main {
@@ -50,6 +49,7 @@ p {
 }
 
 #gamefield {
+  margin-top: 0rem;
 }
 
 #gamefield-controls {
@@ -96,7 +96,6 @@ p {
 }
 
 .navbar-brand {
-  margin-right: 2rem;
 }
 
 .button-grid {
@@ -155,13 +154,6 @@ p {
   vertical-align: baseline;
 }
 
-.basic-form:disabled,
-.basic-form[disabled]{
-  border: 1px solid rgba(0, 0, 0, 0);
-  color: rgba(0, 0, 0, 0.4);
-  cursor: default;
-}
-
 .basic-button-actions:hover:enabled {
   border-color: rgba(0, 0, 0, 0.15);
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
@@ -177,18 +169,27 @@ p {
   transform: translateY(0);
 }
 
+.sidebar {
+  background-color: #fff;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  height: 100vh;
+  width: 12.75rem;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-form {
+  background-color: #FFFFFF;
+  border-color: rgba(108, 117, 125, 0.5);
+  border-radius: 0;
+}
+
 .tile-description {
   border-width: 5px;
   font-size: var(--font-size-tile);
 }
 
 .game-modes-button {
-  border-top-width: 0px;
   font-weight: 600;
-}
-
-.stats-tile {
-  border-top-width: 0px;
 }
 
 .row-main-up {
@@ -266,20 +267,27 @@ footer {
 }
 
 .dropdown-content {
+  background-color: #f1f1f1;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
   display: none;
   position: absolute;
-  background-color: #f1f1f1;
-  overflow: auto;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
 
-.dropdown-content button {
-  color: black;
-  text-decoration: none;
-  display: block;
+.show {display: block;}
+
+/* Dropdown styling */
+#menuDropdown {
+  transition: all 0.2s ease-in-out;
 }
 
-.dropdown a:hover {background-color: #ddd;}
+#menuDropdown button,
+#menuDropdown a {
+  font-size: 0.95rem;
+}
 
-.show {display: block;}
+/* Optional: smooth appearance */
+#menuDropdown.show {
+  display: block !important;
+}
