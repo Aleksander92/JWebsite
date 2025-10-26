@@ -49,7 +49,8 @@ p {
 }
 
 #gamefield {
-  margin-top: 0rem;
+  margin-top: 1rem;
+  padding: 0 1rem;
 }
 
 #gamefield-controls {
@@ -70,6 +71,7 @@ p {
 
 .task-title {
   font-size: var(--font-size-tile);
+  font-weight: bold;
   padding: 0 0 0 0;
 }
 
@@ -79,15 +81,22 @@ p {
 
 .task-question {
   width: auto;
+  font-size: 2.5rem;
+  min-height: 4rem;
+  display: flex;
 }
 
 .previous-task-question {
-  margin-right: 1em;
+  margin-right: 0.5rem;
   width: auto;
 }
 
 .previous-task-answer {
   width: auto;
+}
+
+.stats-tile {
+    font-size: 1.1rem;
 }
 
 .navbar {
