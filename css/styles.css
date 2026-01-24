@@ -311,3 +311,43 @@ footer {
 #menuDropdown.show {
   display: block !important;
 }
+
+/* Main content footer */
+.main-content-footer {
+  margin-top: 2rem;
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  background: linear-gradient(180deg, #ffffff, #f8f9fb);
+  font-size: 0.9rem;
+}
+
+.main-content-footer .footer-title {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.35rem;
+}
+
+.main-content-footer .footer-text {
+  color: #555;
+}
+
+.main-content-footer .footer-link {
+  color: #0d6efd;
+  text-decoration: none;
+  font-family: Roboto;
+  font-weight: 500;
+}
+
+.main-content-footer .footer-link:hover {
+  text-decoration: underline;
+}
+
+.footer-contact {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.footer-icon {
+  display: inline-block;
+}
