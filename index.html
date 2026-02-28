@@ -1,21 +1,18 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="JQuiz helps beginners practice hiragana and romaji through quick interactive drills, progress stats, and learning tips.">
 
-  <title>JQuiz</title>
+  <title>JQuiz — Learn Hiragana with Daily Practice</title>
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/all.min.css">
 
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Cabin&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Krub:wght@200;300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/animations.css">
@@ -28,26 +25,18 @@
 </head>
 
 <body>
-  <!-- Top Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fixed-top px-3 d-lg-none">
+  <nav class="navbar navbar-expand-lg mobile-nav d-lg-none fixed-top px-3">
     <div class="container-fluid d-flex justify-content-between align-items-center">
-      <!-- Left: Brand -->
-      <a href="index.html" class="navbar-brand" id="title">
-        <img src="img/logo_small.png" alt="logo">
+      <a href="index.html" class="navbar-brand" id="title" aria-label="JQuiz home">
+        <img src="img/logo_small.png" alt="JQuiz logo">
       </a>
 
-      <!-- Right: Hamburger button -->
       <div class="position-relative">
-        <button class="navbar-toggler border-0" type="button" id="menuToggle" aria-label="Toggle navigation">
+        <button class="navbar-toggler border-0" type="button" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!-- Dropdown menu (appears below the hamburger) -->
-        <div id="menuDropdown"
-             class="position-absolute bg-white border rounded shadow-sm p-2 d-none"
-             style="top: 2.8rem; right: 0; min-width: 12.75rem; z-index: 1050;">
-
-          <!-- Game Modes Dropdown -->
+        <div id="menuDropdown" class="mobile-menu position-absolute p-2 d-none" aria-label="Mobile navigation">
           <div class="dropdown mb-2">
             <button class="btn btn-light w-100 text-start dropdown-toggle" type="button" id="gameModesToggle">
               Game modes
@@ -57,157 +46,122 @@
               <button class="btn btn-outline-secondary w-100 game-modes-button-hir-to-eng">あ → a</button>
             </div>
           </div>
-
-          <!-- About -->
           <a href="about.html" class="btn btn-light w-100 text-start">About</a>
         </div>
       </div>
     </div>
   </nav>
 
-  <!-- Add spacing so your content isn't hidden under the fixed navbar -->
-  <div class="d-lg-none" style="height: 3rem;"></div>
+  <div class="d-lg-none" style="height: 4rem;"></div>
 
-  <div class="container-fluid main d-flex p-0 m-0 min-vh-100 overflow-hidden">
-    <!-- Sidebar -->
-    <div class="sidebar d-none d-lg-block p-0 m-0 flex-shrink-0 position-relative bg-light">
-      <div class="w-100 m-0 pb-2">
-        <a href="index.html" class="navbar-brand justify-content-center d-flex" id="title">
-          <img src="img/logo.png" alt="logo">
-        </a>
-      </div>
-
-      <!-- Game modes button -->
-      <div class="position-relative w-100">
-        <button onclick="gameModesShowToggle()" class="sidebar-form sidebar-button-actions dropbtn w-100 btn btn-outline-secondary">
-          Game modes
-        </button>
-        <div id="myDropdown" class="dropdown-content w-100" style="top: 0; left: 100%">
-          <button class="sidebar-form sidebar-button-actions justify-content-center w-100 btn btn-outline-secondary game-modes-button-eng-to-hir">
-            a -> あ
-          </button>
-          <button class="sidebar-form sidebar-button-actions justify-content-center w-100 btn btn-outline-secondary game-modes-button-hir-to-eng">
-            あ -> a
-          </button>
-        </div>
-      </div>
-
-      <a href="about.html" class="sidebar-form sidebar-button-actions w-100 btn btn-outline-secondary">
-        About
+  <main class="container-fluid main-layout">
+    <aside class="sidebar d-none d-lg-flex flex-column">
+      <a href="index.html" class="navbar-brand justify-content-center d-flex mt-3" id="title" aria-label="JQuiz home">
+        <img src="img/logo.png" alt="JQuiz logo">
       </a>
-    </div>
 
-    <!-- Main content -->
-    <div class="flex-grow-1 d-flex flex-column p-0 mx-0" style="margin-top: 1rem" id="gamefield">
-      <h1 class="text-center d-none d-lg-block mb-4" id="page-main-title">Hiragana Quiz Practice</h1>
-      <div class="row g-0">
-        <!-- Controls for large screens -->
-        <div class="d-none d-lg-block col-lg-4" style="margin-top: 2rem">
-          <div class="row g-0 mb-4">
-            <div class="col">
-              <div class="d-flex justify-content-center task-title">Current Task</div>
-              <div class="d-flex justify-content-center mt-2">
-                <span class="container basic-form task-question" style="font-size: 2.5rem; min-height: 4rem;"></span>
-              </div>
-            </div>
-          </div>
+      <button onclick="gameModesShowToggle()" class="sidebar-button dropbtn mt-4">
+        Game modes
+      </button>
+      <div id="myDropdown" class="dropdown-content">
+        <button class="sidebar-button game-modes-button-eng-to-hir">a → あ</button>
+        <button class="sidebar-button game-modes-button-hir-to-eng">あ → a</button>
+      </div>
 
-          <div class="row g-0 mb-4">
-            <div class="col">
-              <div class="d-flex justify-content-center task-title">Last Answer</div>
-              <div class="d-flex justify-content-center mt-2">
-                <span class="basic-form previous-task-question" style="margin-right: 0.5rem;"></span>
-                <span class="basic-form previous-task-answer"></span>
-              </div>
-            </div>
-          </div>
+      <a href="about.html" class="sidebar-button text-center text-decoration-none mt-3">About</a>
 
-          <div class="row g-0">
-            <div class="col">
-              <div class="d-flex justify-content-center task-title">Stats</div>
-              <div class="d-flex justify-content-center mt-2">
-                <span class="basic-form stats-tile" id="attempts"></span>
-              </div>
-            </div>
-          </div>
+      <div class="sidebar-help mt-auto">
+        <h2>Quick tip</h2>
+        <p>Practice 5–10 minutes daily. Short sessions work best for memory retention.</p>
+      </div>
+    </aside>
+
+    <section class="content-area" id="gamefield">
+      <header class="hero-card">
+        <h1 id="page-main-title">Learn Hiragana with Interactive Quizzes</h1>
+        <p>
+          Build reading confidence through fast drills: switch between romaji → hiragana and hiragana → romaji,
+          get instant feedback, and track your progress.
+        </p>
+      </header>
+
+      <div class="row g-3 mb-3 d-none d-lg-flex">
+        <div class="col-lg-4">
+          <article class="info-card">
+            <h2 class="task-title">Current Task</h2>
+            <div class="task-value task-question"></div>
+          </article>
         </div>
-
-        <!-- Grid -->
-        <div class="col-12 col-lg-4 d-flex flex-column">
-          <div class="text-center" id="gamefield-title">Choose the correct translation</div>
-          <div class="grid flex-grow-1"></div>
+        <div class="col-lg-4">
+          <article class="info-card">
+            <h2 class="task-title">Last Answer</h2>
+            <div class="meta-line">
+              <span class="previous-task-question"></span>
+              <span class="mx-2">→</span>
+              <span class="previous-task-answer"></span>
+            </div>
+          </article>
         </div>
-
-        <!-- Empty -->
-        <div class="d-none d-lg-flex col-lg-4"></div>
-
-        <!-- Controls for small screens -->
-        <div class="d-lg-none col-12" style="margin-top: 1rem">
-          <div class="row g-0">
-            <div class="col-4">
-              <div class="d-flex justify-content-center task-title">Previous Task</div>
-              <div class="d-flex justify-content-center">
-                <span class="basic-form previous-task-question"></span>
-                <span class="basic-form previous-task-answer"></span>
-              </div>
-            </div>
-
-            <div class="col-4">
-              <div class="d-flex justify-content-center task-title">Task</div>
-              <div class="d-flex justify-content-center">
-                <span class="container basic-form task-question"></span>
-              </div>
-            </div>
-
-            <div class="col-4">
-              <div class="d-flex justify-content-center task-title">Stats</div>
-              <div class="d-flex justify-content-center">
-                <span class="basic-form stats-tile"></span>
-              </div>
-            </div>
-          </div>
+        <div class="col-lg-4">
+          <article class="info-card">
+            <h2 class="task-title">Accuracy</h2>
+            <div class="stats-tile"></div>
+          </article>
         </div>
       </div>
 
-      <!-- Main content footer -->
-      <div class="main-content-footer mt-auto">
-        <div class="row">
-          <div class="col-6">
-            <div class="footer-title">Contact us</div>
-            <div class="footer-text footer-contact">
-              <img src="img/telegram.png" alt="telegram" width="21" height="21" class="footer-icon">
-              <span>aleksander_92</span>
+      <article class="quiz-card">
+        <div class="d-flex align-items-center justify-content-between flex-wrap mb-2">
+          <h2 id="gamefield-title" class="mb-2 mb-sm-0">Choose the correct translation</h2>
+          <span class="mode-badge">47 basic hiragana</span>
+        </div>
+        <div class="grid"></div>
+      </article>
+
+      <div class="d-lg-none mt-3">
+        <article class="info-card compact">
+          <div class="row text-center g-2">
+            <div class="col-4">
+              <div class="task-title">Task</div>
+              <div class="task-value small task-question"></div>
+            </div>
+            <div class="col-4">
+              <div class="task-title">Last</div>
+              <div class="meta-line small justify-content-center">
+                <span class="previous-task-question"></span>
+                <span class="mx-1">→</span>
+                <span class="previous-task-answer"></span>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="task-title">Stats</div>
+              <div class="stats-tile small"></div>
             </div>
           </div>
+        </article>
+      </div>
 
-          <div class="col-6">
-            <div class="footer-title">Links</div>
-            <a href="https://www3.nhk.or.jp/nhkworld/lesson/en/letters/hiragana.html" target="_blank" rel="noopener" class="footer-link">
-              Japanese Alphabet
-            </a>
+      <section class="main-content-footer mt-4" aria-label="Additional learning resources">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <h3 class="footer-title">Why JQuiz</h3>
+            <p class="footer-text">Focused drills and clear feedback for beginners who need practical daily repetition.</p>
+          </div>
+          <div class="col-md-4">
+            <h3 class="footer-title">Learning resources</h3>
+            <a href="https://www3.nhk.or.jp/nhkworld/lesson/en/letters/hiragana.html" target="_blank" rel="noopener" class="footer-link">NHK Hiragana chart</a>
+          </div>
+          <div class="col-md-4">
+            <h3 class="footer-title">Contact</h3>
+            <div class="footer-contact">
+              <img src="img/telegram.png" alt="Telegram" width="20" height="20" class="footer-icon">
+              <span>@aleksander_92</span>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!--<footer>
-    <div class="container">
-      <div class="container">
-        <div class="d-flex justify-content-center">
-          <img src="img/telegram.png" alt="telegram" width="21" height="21" style="margin: 0 1px 0 0">-->
-  <!--<span><a href="https://t.me/aleksander_92" style="color: black">@aleksander_92</a></span>-->
-  <!--<span>@aleksander_92</span>
-    </div>
-  </div>-->
-  <!--<div class="container">
-    <div class="d-flex justify-content-center">
-      <img src="img/linkedin.png" alt="linkedin" width="21" height="21" style="margin: 0 3px 0 0">
-      <a href="https://www.linkedin.com/in/alexander-krasnoselskikh-53035544/" style="color: black">Aleksander</a>
-    </div>
-  </div>-->
-  <!--</div>
-  </footer>-->
+      </section>
+    </section>
+  </main>
 
   <script src="js/jquery-3.5.1.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
