@@ -101,7 +101,7 @@ function initLocalStorage() {
 function createTask() {
   var mode = Number(localStorage.getItem('mode'));
   var indPlus = Math.floor(Math.random() * (alphabet.length - 1));
-  var ind = (localStorage.getItem('curTaskIndex') + indPlus + 1) % alphabet.length;
+  var ind = (Number(localStorage.getItem('curTaskIndex')) + indPlus + 1) % alphabet.length;
   localStorage.setItem('curTaskQuestion', alphabet[ind][mode]);
   localStorage.setItem('curTaskAnswer', alphabet[ind][mode ^ 1]);
   localStorage.setItem('curTaskIndex', ind);
