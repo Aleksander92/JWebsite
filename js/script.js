@@ -93,13 +93,18 @@ function initLocalStorage() {
   }
   localStorage.setItem('curTaskQuestion', localStorage.getItem('curTaskQuestion') || '');
   localStorage.setItem('curTaskAnswer', localStorage.getItem('curTaskAnswer') || '');
+  if (!localStorage.getItem('curTaskIndex')) {
+    localStorage.setItem('curTaskIndex', 0);
+  }
 }
 
 function createTask() {
   var mode = Number(localStorage.getItem('mode'));
-  var ind = Math.floor(Math.random() * alphabet.length);
+  var indPlus = Math.floor(Math.random() * (alphabet.length - 1));
+  var ind = (localStorage.getItem('curTaskIndex') + indPlus + 1) % alphabet.length;
   localStorage.setItem('curTaskQuestion', alphabet[ind][mode]);
   localStorage.setItem('curTaskAnswer', alphabet[ind][mode ^ 1]);
+  localStorage.setItem('curTaskIndex', ind);
 
   var taskQuestionElements = document.getElementsByClassName('task-question');
   for (const e of taskQuestionElements) {
