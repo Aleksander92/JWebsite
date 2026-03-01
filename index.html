@@ -42,8 +42,10 @@
               Game modes
             </button>
             <div id="gameModesMenu" class="bg-white border rounded mt-1 p-1 d-none">
-              <button class="btn btn-outline-secondary w-100 mb-1 game-modes-button-eng-to-hir">a → あ</button>
-              <button class="btn btn-outline-secondary w-100 game-modes-button-hir-to-eng">あ → a</button>
+              <button class="btn btn-outline-secondary w-100 mb-1 game-mode-button" data-mode="1">a → あ</button>
+              <button class="btn btn-outline-secondary w-100 mb-1 game-mode-button" data-mode="0">あ → a</button>
+              <button class="btn btn-outline-secondary w-100 mb-1 game-mode-button" data-mode="3">a → ア</button>
+              <button class="btn btn-outline-secondary w-100 game-mode-button" data-mode="2">ア → a</button>
             </div>
           </div>
           <a href="about.html" class="btn btn-light w-100 text-start">About</a>
@@ -64,8 +66,10 @@
         Game modes
       </button>
       <div id="myDropdown" class="dropdown-content">
-        <button class="sidebar-button game-modes-button-eng-to-hir">a → あ</button>
-        <button class="sidebar-button game-modes-button-hir-to-eng">あ → a</button>
+        <button class="sidebar-button game-mode-button" data-mode="1">a → あ</button>
+        <button class="sidebar-button game-mode-button" data-mode="0">あ → a</button>
+        <button class="sidebar-button game-mode-button" data-mode="3">a → ア</button>
+        <button class="sidebar-button game-mode-button" data-mode="2">ア → a</button>
       </div>
 
       <a href="about.html" class="sidebar-button text-center text-decoration-none mt-3">About</a>
@@ -167,6 +171,7 @@
   <script src="js/bootstrap.min.js"></script>
   <script src="js/language-converter.js"></script>
   <script src="js/grid-functions.js"></script>
+  <script src="js/quiz.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>

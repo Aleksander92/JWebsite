@@ -2,72 +2,9 @@
 //                       Grid generation and alphabet working functions
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-var alphabet = [
-  ['あ', 'a'], ['い', 'i'], ['う', 'u'], ['え', 'e'], ['お', 'o'],
-  ['か', 'ka'], ['き', 'ki'], ['く', 'ku'], ['け', 'ke'], ['こ', 'ko'],
-  ['さ', 'sa'], ['し', 'shi'], ['す', 'su'], ['せ', 'se'], ['そ', 'so'],
-  ['た', 'ta'], ['ち', 'chi'], ['つ', 'tsu'], ['て', 'te'], ['と', 'to'],
-  ['な', 'na'], ['に', 'ni'], ['ぬ', 'nu'], ['ね', 'ne'], ['の', 'no'],
-  ['は', 'ha'], ['ひ', 'hi'], ['ふ', 'fu'], ['へ', 'he'], ['ほ', 'ho'],
-  ['ま', 'ma'], ['み', 'mi'], ['む', 'mu'], ['め', 'me'], ['も', 'mo'],
-  ['や', 'ya'], ['ゆ', 'yu'], ['よ', 'yo'],
-  ['ら', 'ra'], ['り', 'ri'], ['る', 'ru'], ['れ', 're'], ['ろ', 'ro'],
-  ['わ', 'wa'], ['を', 'wo'], ['ん', 'n']
-];
-
-var gaps = [36, 37, 44, 45];
-
-function createGrid(mode) {
-  var rows = document.getElementsByClassName('grid-row');
-  for (var i = rows.length - 1; i > -1; --i) {
-    rows[i].remove();
-  }
-
-  var grid = document.getElementsByClassName('grid')[0];
-  if (!grid) {
-    return;
-  }
-
-  var gapUsed = false;
-  var alphabetTextContentIndex = mode ^ 1;
-
-  for (var rowIndex = 0; rowIndex < alphabet.length;) {
-    var row = document.createElement('div');
-    row.setAttribute('class', 'row row-cols-5 grid-row');
-    grid.appendChild(row);
-
-    for (var c = 0; c < 5 && rowIndex < alphabet.length; c++, rowIndex++) {
-      var col = document.createElement('div');
-      col.setAttribute('class', 'col');
-      col.style.display = 'flex';
-      col.style.justifyContent = 'center';
-      row.appendChild(col);
-
-      if (gaps.includes(rowIndex) && !gapUsed) {
-        rowIndex -= 1;
-        gapUsed = true;
-        continue;
-      }
-      gapUsed = false;
-
-      var button = document.createElement('button');
-      button.innerHTML = alphabet[rowIndex][alphabetTextContentIndex];
-      button.setAttribute('class', 'button-grid glow');
-      button.setAttribute('id', GridFunctions.buttonGridId(alphabet[rowIndex][1]));
-      button.setAttribute('role', 'button');
-      button.onclick = function () { checkAnswerAndMakeNewTask(this); };
-      button.addEventListener('animationend', function () {
-        this.classList.remove('class-glow-correct');
-        this.classList.remove('class-glow-incorrect');
-      });
-      col.appendChild(button);
-    }
-  }
-}
-
 function initLocalStorage() {
   if (!localStorage.getItem('mode')) {
-    localStorage.setItem('mode', 1);
+    localStorage.setItem('mode', Mode.RomajiToHiragana);
   }
   if (!localStorage.getItem('attempts')) {
     localStorage.setItem('attempts', 0);
@@ -82,23 +19,41 @@ function initLocalStorage() {
   }
 }
 
-function createTask() {
-  var mode = Number(localStorage.getItem('mode'));
-  var indPlus = Math.floor(Math.random() * (alphabet.length - 1));
-  var ind = (Number(localStorage.getItem('curTaskIndex')) + indPlus + 1) % alphabet.length;
-  localStorage.setItem('curTaskQuestion', alphabet[ind][mode]);
-  localStorage.setItem('curTaskAnswer', alphabet[ind][mode ^ 1]);
-  localStorage.setItem('curTaskIndex', ind);
-
-  var taskQuestionElements = document.getElementsByClassName('task-question');
-  for (const e of taskQuestionElements) {
-    e.textContent = localStorage.getItem('curTaskQuestion');
+function getQuizConfig(mode) {
+  switch (mode) {
+    case Mode.HiraganaToRomaji:
+      return { quiz: new HiraganaQuiz(), questionIndex: 0, answerIndex: 1 };
+    case Mode.KatakanaToRomaji:
+      return { quiz: new KatakanaQuiz(), questionIndex: 0, answerIndex: 1 };
+    case Mode.RomajiToKatakana:
+      return { quiz: new KatakanaQuiz(), questionIndex: 1, answerIndex: 0 };
+    case Mode.RomajiToHiragana:
+    default:
+      return { quiz: new HiraganaQuiz(), questionIndex: 1, answerIndex: 0 };
   }
+}
+
+var currentQuiz = null;
+var currentQuestionIndex = 0;
+var currentAnswerIndex = 1;
+
+function createTask() {
+  if (!currentQuiz) {
+    return;
+  }
+
+  currentQuiz.createTask(currentQuestionIndex, currentAnswerIndex);
 }
 
 function createGame(mode) {
   localStorage.setItem('mode', mode);
-  createGrid(mode);
+  var config = getQuizConfig(mode);
+  currentQuiz = config.quiz;
+  currentQuestionIndex = config.questionIndex;
+  currentAnswerIndex = config.answerIndex;
+
+  currentQuiz.createGrid(currentAnswerIndex);
+  currentQuiz.updateBadge();
   createTask();
   showStats();
 }
@@ -161,27 +116,16 @@ function highlightGridButton() {
 }
 
 function attachModeButtons() {
-  var engToHirButtons = document.getElementsByClassName('game-modes-button-eng-to-hir');
-  for (const b of engToHirButtons) {
+  var modeButtons = document.getElementsByClassName('game-mode-button');
+  for (const b of modeButtons) {
     b.onclick = function () {
+      var mode = Number(this.dataset.mode);
       if (!document.querySelector('.grid')) {
-        localStorage.setItem('mode', 1);
+        localStorage.setItem('mode', mode);
         window.location.href = 'index.html';
         return;
       }
-      createGame(1);
-    };
-  }
-
-  var hirToEngButtons = document.getElementsByClassName('game-modes-button-hir-to-eng');
-  for (const b of hirToEngButtons) {
-    b.onclick = function () {
-      if (!document.querySelector('.grid')) {
-        localStorage.setItem('mode', 0);
-        window.location.href = 'index.html';
-        return;
-      }
-      createGame(0);
+      createGame(mode);
     };
   }
 }
