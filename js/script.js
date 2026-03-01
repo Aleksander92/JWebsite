@@ -17,20 +17,8 @@ var alphabet = [
 
 var gaps = [36, 37, 44, 45];
 
-function hiraganaToEnglish(hieroglyph) {
-  for (const item of alphabet) {
-    if (item[0] === hieroglyph) {
-      return item[1];
-    }
-  }
-  throw new Error('No such hieroglyph: ' + hieroglyph);
-}
-
-function anythingToEnglish(s) {
-  if (s[0] >= 'a' && s[0] <= 'z') {
-    return s;
-  }
-  return hiraganaToEnglish(s);
+function buttonGridId(value) {
+  return 'button-grid-' + LanguageConverter.anythingToEnglish(value);
 }
 
 function createGrid(mode) {
@@ -69,7 +57,7 @@ function createGrid(mode) {
       var button = document.createElement('button');
       button.innerHTML = alphabet[rowIndex][alphabetTextContentIndex];
       button.setAttribute('class', 'button-grid glow');
-      button.setAttribute('id', 'button-grid-' + alphabet[rowIndex][1]);
+      button.setAttribute('id', buttonGridId(alphabet[rowIndex][1]));
       button.setAttribute('role', 'button');
       button.onclick = function () { checkAnswerAndMakeNewTask(this); };
       button.addEventListener('animationend', function () {
@@ -163,13 +151,13 @@ function showStats() {
 }
 
 function highlightGridButton() {
-  var correctButton = document.getElementById('button-grid-' + anythingToEnglish(localStorage.getItem('curTaskAnswer')));
+  var correctButton = document.getElementById(buttonGridId(localStorage.getItem('curTaskAnswer')));
   if (correctButton) {
     correctButton.classList.toggle('class-glow-correct');
   }
 
   if (localStorage.getItem('userAnswer') !== localStorage.getItem('curTaskAnswer')) {
-    var wrongButton = document.getElementById('button-grid-' + anythingToEnglish(localStorage.getItem('userAnswer')));
+    var wrongButton = document.getElementById(buttonGridId(localStorage.getItem('userAnswer')));
     if (wrongButton) {
       wrongButton.classList.toggle('class-glow-incorrect');
     }
