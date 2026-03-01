@@ -17,10 +17,6 @@ var alphabet = [
 
 var gaps = [36, 37, 44, 45];
 
-function buttonGridId(value) {
-  return 'button-grid-' + LanguageConverter.anythingToEnglish(value);
-}
-
 function createGrid(mode) {
   var rows = document.getElementsByClassName('grid-row');
   for (var i = rows.length - 1; i > -1; --i) {
@@ -57,7 +53,7 @@ function createGrid(mode) {
       var button = document.createElement('button');
       button.innerHTML = alphabet[rowIndex][alphabetTextContentIndex];
       button.setAttribute('class', 'button-grid glow');
-      button.setAttribute('id', buttonGridId(alphabet[rowIndex][1]));
+      button.setAttribute('id', GridFunctions.buttonGridId(alphabet[rowIndex][1]));
       button.setAttribute('role', 'button');
       button.onclick = function () { checkAnswerAndMakeNewTask(this); };
       button.addEventListener('animationend', function () {
@@ -151,13 +147,13 @@ function showStats() {
 }
 
 function highlightGridButton() {
-  var correctButton = document.getElementById(buttonGridId(localStorage.getItem('curTaskAnswer')));
+  var correctButton = document.getElementById(GridFunctions.buttonGridId(localStorage.getItem('curTaskAnswer')));
   if (correctButton) {
     correctButton.classList.toggle('class-glow-correct');
   }
 
   if (localStorage.getItem('userAnswer') !== localStorage.getItem('curTaskAnswer')) {
-    var wrongButton = document.getElementById(buttonGridId(localStorage.getItem('userAnswer')));
+    var wrongButton = document.getElementById(GridFunctions.buttonGridId(localStorage.getItem('userAnswer')));
     if (wrongButton) {
       wrongButton.classList.toggle('class-glow-incorrect');
     }
