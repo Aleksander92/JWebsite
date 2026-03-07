@@ -295,6 +295,13 @@ body {
   border-bottom-left-radius: 0;
 }
 
+
+.button-grid-marker-kana {
+  font-size: .98rem;
+  text-transform: none;
+  line-height: 1.2;
+}
+
 .button-grid-marker-glyph-double {
   display: flex;
   flex-direction: column;

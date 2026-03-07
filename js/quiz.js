@@ -120,22 +120,25 @@ class Quiz {
         baseAnswerButton.setAttribute('id', GridFunctions.buttonGridId(item[1]) + '-' + rowIndex);
 
         var variants = this.getDiacriticsVariants(item);
-        if (showDiacriticsMarker && answerIndex === 1 && variants.length > 0) {
+        if (showDiacriticsMarker && variants.length > 0) {
           var answerGroup = document.createElement('div');
           answerGroup.setAttribute('class', 'button-grid-diacritics');
+          var markerValueField = answerIndex === 1 ? 'romaji' : 'kana';
+          var markerClassName = answerIndex === 1 ? 'button-grid-marker-glyph' : 'button-grid-marker-glyph button-grid-marker-kana';
+          var markerHalfClassName = answerIndex === 1 ? 'button-grid-marker-half' : 'button-grid-marker-half button-grid-marker-kana';
 
           baseAnswerButton.classList.add('button-grid-main-glyph');
           answerGroup.appendChild(baseAnswerButton);
 
           if (variants.length === 1) {
-            var markerButton = this.createAnswerButton(variants[0].romaji, variants[0].romaji, 'button-grid-marker-glyph');
+            var markerButton = this.createAnswerButton(variants[0][markerValueField], variants[0][markerValueField], markerClassName);
             answerGroup.appendChild(markerButton);
           } else {
             var markerColumn = document.createElement('div');
             markerColumn.setAttribute('class', 'button-grid-marker-glyph-double');
 
-            var topButton = this.createAnswerButton(variants[0].romaji, variants[0].romaji, 'button-grid-marker-half');
-            var bottomButton = this.createAnswerButton(variants[1].romaji, variants[1].romaji, 'button-grid-marker-half');
+            var topButton = this.createAnswerButton(variants[0][markerValueField], variants[0][markerValueField], markerHalfClassName);
+            var bottomButton = this.createAnswerButton(variants[1][markerValueField], variants[1][markerValueField], markerHalfClassName);
 
             markerColumn.appendChild(topButton);
             markerColumn.appendChild(bottomButton);
