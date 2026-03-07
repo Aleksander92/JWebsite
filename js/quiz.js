@@ -5,9 +5,8 @@ const Mode = Object.freeze({
   RomajiToKatakana: 3
 });
 
-
-const DAKUTEN_IMAGE = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path d="M7.2 12.2c0-1.2 1-2.2 2.2-2.2 2.2 0 4.1 1.5 4.7 3.6l1.8 6.2c.3 1-.3 2.2-1.4 2.5-.2.1-.4.1-.6.1-.9 0-1.8-.6-2.1-1.5l-1.8-6.2c-.1-.5-.6-.8-1.1-.8-1 0-1.7-.8-1.7-1.7Z" fill="black"/><path d="M20.2 9.6c0-1.2 1-2.2 2.2-2.2 2.2 0 4.1 1.5 4.7 3.6l1.8 6.2c.3 1-.3 2.2-1.4 2.5-.2.1-.4.1-.6.1-.9 0-1.8-.6-2.1-1.5l-1.8-6.2c-.1-.5-.6-.8-1.1-.8-1 0-1.7-.8-1.7-1.7Z" fill="black"/></svg>');
-const HANDAKUTEN_IMAGE = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><circle cx="18" cy="18" r="11" fill="none" stroke="black" stroke-width="5"/></svg>');
+const DAKUTEN_SYMBOL = '゛';
+const HANDAKUTEN_SYMBOL = '゜';
 
 class Quiz {
   constructor(alphabet, gaps, badgeText) {
@@ -21,11 +20,67 @@ class Quiz {
     this.useDiacritics = useDiacritics;
   }
 
-  getDiacriticsType(item, answerIndex) {
-    if (!this.useDiacritics || answerIndex !== 0) {
-      return '';
+  getDiacriticsVariants(item) {
+    if (!this.useDiacritics) {
+      return [];
     }
-    return item[2] || '';
+
+    var variants = item[3] || [];
+    return variants.map(function (variant) {
+      return {
+        kana: variant[0],
+        romaji: variant[1],
+        markerType: variant[2]
+      };
+    });
+  }
+
+  createAnswerButton(contentText, answerText, className) {
+    var button = document.createElement('button');
+    var cssClass = 'button-grid glow';
+    if (className) {
+      cssClass += ' ' + className;
+    }
+
+    button.setAttribute('class', cssClass);
+    button.dataset.answer = answerText;
+    button.setAttribute('role', 'button');
+    button.textContent = contentText;
+    button.onclick = function () { checkAnswerAndMakeNewTask(this); };
+    button.addEventListener('animationend', function () {
+      this.classList.remove('class-glow-correct');
+      this.classList.remove('class-glow-incorrect');
+    });
+
+    return button;
+  }
+
+  makeKanaQuestionWithMarker(baseKana, markerType) {
+    var markerSymbol = markerType === 'dakuten' ? DAKUTEN_SYMBOL : HANDAKUTEN_SYMBOL;
+    return baseKana + '\n' + markerSymbol;
+  }
+
+  createTaskPool(questionIndex, answerIndex) {
+    var tasks = this.alphabet.map(function (item) {
+      return [item[questionIndex], item[answerIndex]];
+    });
+
+    if (!this.useDiacritics) {
+      return tasks;
+    }
+
+    for (const item of this.alphabet) {
+      var variants = this.getDiacriticsVariants(item);
+      for (const variant of variants) {
+        if (questionIndex === 0 && answerIndex === 1) {
+          tasks.push([this.makeKanaQuestionWithMarker(item[0], variant.markerType), variant.romaji]);
+        } else if (questionIndex === 1 && answerIndex === 0) {
+          tasks.push([variant.romaji, variant.kana]);
+        }
+      }
+    }
+
+    return tasks;
   }
 
   createGrid(answerIndex, showDiacriticsMarker) {
@@ -61,63 +116,46 @@ class Quiz {
         gapUsed = false;
 
         var item = this.alphabet[rowIndex];
-        var button = document.createElement('button');
-        button.setAttribute('class', 'button-grid glow');
-        button.setAttribute('id', GridFunctions.buttonGridId(item[1]) + '-' + rowIndex);
-        button.dataset.answer = item[answerIndex];
-        button.setAttribute('role', 'button');
-        button.onclick = function () { checkAnswerAndMakeNewTask(this); };
-        button.addEventListener('animationend', function () {
-          this.classList.remove('class-glow-correct');
-          this.classList.remove('class-glow-incorrect');
-        });
+        var baseAnswerButton = this.createAnswerButton(item[answerIndex], item[answerIndex]);
+        baseAnswerButton.setAttribute('id', GridFunctions.buttonGridId(item[1]) + '-' + rowIndex);
 
-        var markerType = this.getDiacriticsType(item, answerIndex);
-        if (showDiacriticsMarker && markerType) {
-          button.classList.add('button-grid-diacritics');
+        var variants = this.getDiacriticsVariants(item);
+        if (showDiacriticsMarker && answerIndex === 1 && variants.length > 0) {
+          var answerGroup = document.createElement('div');
+          answerGroup.setAttribute('class', 'button-grid-diacritics');
 
-          var mainGlyph = document.createElement('span');
-          mainGlyph.setAttribute('class', 'button-grid-main-glyph');
-          mainGlyph.textContent = item[answerIndex];
+          baseAnswerButton.classList.add('button-grid-main-glyph');
+          answerGroup.appendChild(baseAnswerButton);
 
-          var markerGlyph = document.createElement('span');
-          markerGlyph.setAttribute('class', 'button-grid-marker-glyph');
-
-          if (markerType === 'both') {
-            markerGlyph.classList.add('button-grid-marker-glyph-double');
-
-            var dakutenTop = document.createElement('span');
-            dakutenTop.setAttribute('class', 'button-grid-marker-half button-grid-marker-dakuten');
-            dakutenTop.style.backgroundImage = 'url("' + DAKUTEN_IMAGE + '")';
-
-            var handakutenBottom = document.createElement('span');
-            handakutenBottom.setAttribute('class', 'button-grid-marker-half button-grid-marker-handakuten');
-            handakutenBottom.style.backgroundImage = 'url("' + HANDAKUTEN_IMAGE + '")';
-
-            markerGlyph.appendChild(dakutenTop);
-            markerGlyph.appendChild(handakutenBottom);
+          if (variants.length === 1) {
+            var markerButton = this.createAnswerButton(variants[0].romaji, variants[0].romaji, 'button-grid-marker-glyph');
+            answerGroup.appendChild(markerButton);
           } else {
-            var isDakuten = markerType === 'dakuten';
-            markerGlyph.classList.add(isDakuten ? 'button-grid-marker-dakuten' : 'button-grid-marker-handakuten');
-            markerGlyph.style.backgroundImage = isDakuten ? 'url("' + DAKUTEN_IMAGE + '")' : 'url("' + HANDAKUTEN_IMAGE + '")';
+            var markerColumn = document.createElement('div');
+            markerColumn.setAttribute('class', 'button-grid-marker-glyph-double');
+
+            var topButton = this.createAnswerButton(variants[0].romaji, variants[0].romaji, 'button-grid-marker-half');
+            var bottomButton = this.createAnswerButton(variants[1].romaji, variants[1].romaji, 'button-grid-marker-half');
+
+            markerColumn.appendChild(topButton);
+            markerColumn.appendChild(bottomButton);
+            answerGroup.appendChild(markerColumn);
           }
 
-          button.appendChild(mainGlyph);
-          button.appendChild(markerGlyph);
+          col.appendChild(answerGroup);
         } else {
-          button.textContent = item[answerIndex];
+          col.appendChild(baseAnswerButton);
         }
-
-        col.appendChild(button);
       }
     }
   }
 
   createTask(questionIndex, answerIndex) {
-    var indPlus = Math.floor(Math.random() * (this.alphabet.length - 1));
-    var ind = (Number(localStorage.getItem('curTaskIndex')) + indPlus + 1) % this.alphabet.length;
-    localStorage.setItem('curTaskQuestion', this.alphabet[ind][questionIndex]);
-    localStorage.setItem('curTaskAnswer', this.alphabet[ind][answerIndex]);
+    var taskPool = this.createTaskPool(questionIndex, answerIndex);
+    var indPlus = Math.floor(Math.random() * (taskPool.length - 1));
+    var ind = (Number(localStorage.getItem('curTaskIndex')) + indPlus + 1) % taskPool.length;
+    localStorage.setItem('curTaskQuestion', taskPool[ind][0]);
+    localStorage.setItem('curTaskAnswer', taskPool[ind][1]);
     localStorage.setItem('curTaskIndex', ind);
 
     var taskQuestionElements = document.getElementsByClassName('task-question');
@@ -138,11 +176,11 @@ class HiraganaQuiz extends Quiz {
   constructor() {
     super([
       ['あ', 'a'], ['い', 'i'], ['う', 'u'], ['え', 'e'], ['お', 'o'],
-      ['か', 'ka', 'dakuten'], ['き', 'ki', 'dakuten'], ['く', 'ku', 'dakuten'], ['け', 'ke', 'dakuten'], ['こ', 'ko', 'dakuten'],
-      ['さ', 'sa', 'dakuten'], ['し', 'shi', 'dakuten'], ['す', 'su', 'dakuten'], ['せ', 'se', 'dakuten'], ['そ', 'so', 'dakuten'],
-      ['た', 'ta', 'dakuten'], ['ち', 'chi', 'dakuten'], ['つ', 'tsu', 'dakuten'], ['て', 'te', 'dakuten'], ['と', 'to', 'dakuten'],
+      ['か', 'ka', 'dakuten', [['が', 'ga', 'dakuten']]], ['き', 'ki', 'dakuten', [['ぎ', 'gi', 'dakuten']]], ['く', 'ku', 'dakuten', [['ぐ', 'gu', 'dakuten']]], ['け', 'ke', 'dakuten', [['げ', 'ge', 'dakuten']]], ['こ', 'ko', 'dakuten', [['ご', 'go', 'dakuten']]],
+      ['さ', 'sa', 'dakuten', [['ざ', 'za', 'dakuten']]], ['し', 'shi', 'dakuten', [['じ', 'ji', 'dakuten']]], ['す', 'su', 'dakuten', [['ず', 'zu', 'dakuten']]], ['せ', 'se', 'dakuten', [['ぜ', 'ze', 'dakuten']]], ['そ', 'so', 'dakuten', [['ぞ', 'zo', 'dakuten']]],
+      ['た', 'ta', 'dakuten', [['だ', 'da', 'dakuten']]], ['ち', 'chi', 'dakuten', [['ぢ', 'di', 'dakuten']]], ['つ', 'tsu', 'dakuten', [['づ', 'du', 'dakuten']]], ['て', 'te', 'dakuten', [['で', 'de', 'dakuten']]], ['と', 'to', 'dakuten', [['ど', 'do', 'dakuten']]],
       ['な', 'na'], ['に', 'ni'], ['ぬ', 'nu'], ['ね', 'ne'], ['の', 'no'],
-      ['は', 'ha', 'both'], ['ひ', 'hi', 'both'], ['ふ', 'fu', 'both'], ['へ', 'he', 'both'], ['ほ', 'ho', 'both'],
+      ['は', 'ha', 'both', [['ば', 'ba', 'dakuten'], ['ぱ', 'pa', 'handakuten']]], ['ひ', 'hi', 'both', [['び', 'bi', 'dakuten'], ['ぴ', 'pi', 'handakuten']]], ['ふ', 'fu', 'both', [['ぶ', 'bu', 'dakuten'], ['ぷ', 'pu', 'handakuten']]], ['へ', 'he', 'both', [['べ', 'be', 'dakuten'], ['ぺ', 'pe', 'handakuten']]], ['ほ', 'ho', 'both', [['ぼ', 'bo', 'dakuten'], ['ぽ', 'po', 'handakuten']]],
       ['ま', 'ma'], ['み', 'mi'], ['む', 'mu'], ['め', 'me'], ['も', 'mo'],
       ['や', 'ya'], ['ゆ', 'yu'], ['よ', 'yo'],
       ['ら', 'ra'], ['り', 'ri'], ['る', 'ru'], ['れ', 're'], ['ろ', 'ro'],
@@ -155,11 +193,11 @@ class KatakanaQuiz extends Quiz {
   constructor() {
     super([
       ['ア', 'a'], ['イ', 'i'], ['ウ', 'u'], ['エ', 'e'], ['オ', 'o'],
-      ['カ', 'ka', 'dakuten'], ['キ', 'ki', 'dakuten'], ['ク', 'ku', 'dakuten'], ['ケ', 'ke', 'dakuten'], ['コ', 'ko', 'dakuten'],
-      ['サ', 'sa', 'dakuten'], ['シ', 'shi', 'dakuten'], ['ス', 'su', 'dakuten'], ['セ', 'se', 'dakuten'], ['ソ', 'so', 'dakuten'],
-      ['タ', 'ta', 'dakuten'], ['チ', 'chi', 'dakuten'], ['ツ', 'tsu', 'dakuten'], ['テ', 'te', 'dakuten'], ['ト', 'to', 'dakuten'],
+      ['カ', 'ka', 'dakuten', [['ガ', 'ga', 'dakuten']]], ['キ', 'ki', 'dakuten', [['ギ', 'gi', 'dakuten']]], ['ク', 'ku', 'dakuten', [['グ', 'gu', 'dakuten']]], ['ケ', 'ke', 'dakuten', [['ゲ', 'ge', 'dakuten']]], ['コ', 'ko', 'dakuten', [['ゴ', 'go', 'dakuten']]],
+      ['サ', 'sa', 'dakuten', [['ザ', 'za', 'dakuten']]], ['シ', 'shi', 'dakuten', [['ジ', 'ji', 'dakuten']]], ['ス', 'su', 'dakuten', [['ズ', 'zu', 'dakuten']]], ['セ', 'se', 'dakuten', [['ゼ', 'ze', 'dakuten']]], ['ソ', 'so', 'dakuten', [['ゾ', 'zo', 'dakuten']]],
+      ['タ', 'ta', 'dakuten', [['ダ', 'da', 'dakuten']]], ['チ', 'chi', 'dakuten', [['ヂ', 'di', 'dakuten']]], ['ツ', 'tsu', 'dakuten', [['ヅ', 'du', 'dakuten']]], ['テ', 'te', 'dakuten', [['デ', 'de', 'dakuten']]], ['ト', 'to', 'dakuten', [['ド', 'do', 'dakuten']]],
       ['ナ', 'na'], ['ニ', 'ni'], ['ヌ', 'nu'], ['ネ', 'ne'], ['ノ', 'no'],
-      ['ハ', 'ha', 'both'], ['ヒ', 'hi', 'both'], ['フ', 'fu', 'both'], ['ヘ', 'he', 'both'], ['ホ', 'ho', 'both'],
+      ['ハ', 'ha', 'both', [['バ', 'ba', 'dakuten'], ['パ', 'pa', 'handakuten']]], ['ヒ', 'hi', 'both', [['ビ', 'bi', 'dakuten'], ['ピ', 'pi', 'handakuten']]], ['フ', 'fu', 'both', [['ブ', 'bu', 'dakuten'], ['プ', 'pu', 'handakuten']]], ['ヘ', 'he', 'both', [['ベ', 'be', 'dakuten'], ['ペ', 'pe', 'handakuten']]], ['ホ', 'ho', 'both', [['ボ', 'bo', 'dakuten'], ['ポ', 'po', 'handakuten']]],
       ['マ', 'ma'], ['ミ', 'mi'], ['ム', 'mu'], ['メ', 'me'], ['モ', 'mo'],
       ['ヤ', 'ya'], ['ユ', 'yu'], ['ヨ', 'yo'],
       ['ラ', 'ra'], ['リ', 'ri'], ['ル', 'ru'], ['レ', 're'], ['ロ', 'ro'],
