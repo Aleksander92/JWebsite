@@ -130,6 +130,9 @@
     <None Include="..\about.html" />
     <None Include="..\css\styles.css" />
     <None Include="..\index.html" />
+    <None Include="..\js\grid-functions.js" />
+    <None Include="..\js\language-converter.js" />
+    <None Include="..\js\quiz.js" />
     <None Include="..\js\script.js" />
   </ItemGroup>
   <ItemGroup>

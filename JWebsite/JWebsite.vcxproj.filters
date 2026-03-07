@@ -27,6 +27,15 @@
     <None Include="..\about.html">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="..\js\language-converter.js">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\js\grid-functions.js">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\js\quiz.js">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\commands.txt">
