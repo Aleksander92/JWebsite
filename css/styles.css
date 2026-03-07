@@ -259,8 +259,7 @@ body {
 .button-grid-diacritics {
   display: flex;
   align-items: stretch;
-  padding: 0;
-  overflow: hidden;
+  width: 100%;
 }
 
 .button-grid-main-glyph,
@@ -273,16 +272,23 @@ body {
 
 .button-grid-main-glyph {
   flex: 0 0 80%;
+  width: auto;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .button-grid-marker-glyph {
   flex: 0 0 20%;
+  width: auto;
+  min-width: 0;
   border-left: 1px solid var(--border);
-  background-color: #f4f6ff;
+  background-color: #fff;
   background-repeat: no-repeat;
   background-position: center;
   background-size: 70% 70%;
   font-size: 1rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .button-grid-marker-glyph-double {
@@ -290,21 +296,32 @@ body {
   flex-direction: column;
   align-items: stretch;
   justify-content: stretch;
-  padding: 0;
-  background-image: none !important;
+  flex: 0 0 20%;
 }
 
 .button-grid-marker-half {
-  display: block;
+  display: flex;
   width: 100%;
   flex: 1 1 50%;
   background-repeat: no-repeat;
   background-position: center;
   background-size: 62% 62%;
+  min-height: 1.5rem;
+  border-radius: 0;
+  border-left: 1px solid var(--border);
+  box-shadow: none;
 }
 
 .button-grid-marker-half + .button-grid-marker-half {
   border-top: 1px solid var(--border);
+}
+
+.button-grid-marker-half:first-child {
+  border-top-right-radius: .75rem;
+}
+
+.button-grid-marker-half:last-child {
+  border-bottom-right-radius: .75rem;
 }
 
 .main-content-footer {
