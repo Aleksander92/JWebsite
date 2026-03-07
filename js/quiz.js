@@ -5,14 +5,30 @@ const Mode = Object.freeze({
   RomajiToKatakana: 3
 });
 
+
+const DAKUTEN_IMAGE = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path d="M7.2 12.2c0-1.2 1-2.2 2.2-2.2 2.2 0 4.1 1.5 4.7 3.6l1.8 6.2c.3 1-.3 2.2-1.4 2.5-.2.1-.4.1-.6.1-.9 0-1.8-.6-2.1-1.5l-1.8-6.2c-.1-.5-.6-.8-1.1-.8-1 0-1.7-.8-1.7-1.7Z" fill="black"/><path d="M20.2 9.6c0-1.2 1-2.2 2.2-2.2 2.2 0 4.1 1.5 4.7 3.6l1.8 6.2c.3 1-.3 2.2-1.4 2.5-.2.1-.4.1-.6.1-.9 0-1.8-.6-2.1-1.5l-1.8-6.2c-.1-.5-.6-.8-1.1-.8-1 0-1.7-.8-1.7-1.7Z" fill="black"/></svg>');
+const HANDAKUTEN_IMAGE = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><circle cx="18" cy="18" r="11" fill="none" stroke="black" stroke-width="5"/></svg>');
+
 class Quiz {
   constructor(alphabet, gaps, badgeText) {
     this.alphabet = alphabet;
     this.gaps = gaps;
     this.badgeText = badgeText;
+    this.useDiacritics = false;
   }
 
-  createGrid(answerIndex) {
+  setUseDiacritics(useDiacritics) {
+    this.useDiacritics = useDiacritics;
+  }
+
+  getDiacriticsType(item, answerIndex) {
+    if (!this.useDiacritics || answerIndex !== 0) {
+      return '';
+    }
+    return item[2] || '';
+  }
+
+  createGrid(answerIndex, showDiacriticsMarker) {
     var rows = document.getElementsByClassName('grid-row');
     for (var i = rows.length - 1; i > -1; --i) {
       rows[i].remove();
@@ -44,16 +60,54 @@ class Quiz {
         }
         gapUsed = false;
 
+        var item = this.alphabet[rowIndex];
         var button = document.createElement('button');
-        button.innerHTML = this.alphabet[rowIndex][answerIndex];
         button.setAttribute('class', 'button-grid glow');
-        button.setAttribute('id', GridFunctions.buttonGridId(this.alphabet[rowIndex][1]));
+        button.setAttribute('id', GridFunctions.buttonGridId(item[1]) + '-' + rowIndex);
+        button.dataset.answer = item[answerIndex];
         button.setAttribute('role', 'button');
         button.onclick = function () { checkAnswerAndMakeNewTask(this); };
         button.addEventListener('animationend', function () {
           this.classList.remove('class-glow-correct');
           this.classList.remove('class-glow-incorrect');
         });
+
+        var markerType = this.getDiacriticsType(item, answerIndex);
+        if (showDiacriticsMarker && markerType) {
+          button.classList.add('button-grid-diacritics');
+
+          var mainGlyph = document.createElement('span');
+          mainGlyph.setAttribute('class', 'button-grid-main-glyph');
+          mainGlyph.textContent = item[answerIndex];
+
+          var markerGlyph = document.createElement('span');
+          markerGlyph.setAttribute('class', 'button-grid-marker-glyph');
+
+          if (markerType === 'both') {
+            markerGlyph.classList.add('button-grid-marker-glyph-double');
+
+            var dakutenTop = document.createElement('span');
+            dakutenTop.setAttribute('class', 'button-grid-marker-half button-grid-marker-dakuten');
+            dakutenTop.style.backgroundImage = 'url("' + DAKUTEN_IMAGE + '")';
+
+            var handakutenBottom = document.createElement('span');
+            handakutenBottom.setAttribute('class', 'button-grid-marker-half button-grid-marker-handakuten');
+            handakutenBottom.style.backgroundImage = 'url("' + HANDAKUTEN_IMAGE + '")';
+
+            markerGlyph.appendChild(dakutenTop);
+            markerGlyph.appendChild(handakutenBottom);
+          } else {
+            var isDakuten = markerType === 'dakuten';
+            markerGlyph.classList.add(isDakuten ? 'button-grid-marker-dakuten' : 'button-grid-marker-handakuten');
+            markerGlyph.style.backgroundImage = isDakuten ? 'url("' + DAKUTEN_IMAGE + '")' : 'url("' + HANDAKUTEN_IMAGE + '")';
+          }
+
+          button.appendChild(mainGlyph);
+          button.appendChild(markerGlyph);
+        } else {
+          button.textContent = item[answerIndex];
+        }
+
         col.appendChild(button);
       }
     }
@@ -84,11 +138,11 @@ class HiraganaQuiz extends Quiz {
   constructor() {
     super([
       ['あ', 'a'], ['い', 'i'], ['う', 'u'], ['え', 'e'], ['お', 'o'],
-      ['か', 'ka'], ['き', 'ki'], ['く', 'ku'], ['け', 'ke'], ['こ', 'ko'],
-      ['さ', 'sa'], ['し', 'shi'], ['す', 'su'], ['せ', 'se'], ['そ', 'so'],
-      ['た', 'ta'], ['ち', 'chi'], ['つ', 'tsu'], ['て', 'te'], ['と', 'to'],
+      ['か', 'ka', 'dakuten'], ['き', 'ki', 'dakuten'], ['く', 'ku', 'dakuten'], ['け', 'ke', 'dakuten'], ['こ', 'ko', 'dakuten'],
+      ['さ', 'sa', 'dakuten'], ['し', 'shi', 'dakuten'], ['す', 'su', 'dakuten'], ['せ', 'se', 'dakuten'], ['そ', 'so', 'dakuten'],
+      ['た', 'ta', 'dakuten'], ['ち', 'chi', 'dakuten'], ['つ', 'tsu', 'dakuten'], ['て', 'te', 'dakuten'], ['と', 'to', 'dakuten'],
       ['な', 'na'], ['に', 'ni'], ['ぬ', 'nu'], ['ね', 'ne'], ['の', 'no'],
-      ['は', 'ha'], ['ひ', 'hi'], ['ふ', 'fu'], ['へ', 'he'], ['ほ', 'ho'],
+      ['は', 'ha', 'both'], ['ひ', 'hi', 'both'], ['ふ', 'fu', 'both'], ['へ', 'he', 'both'], ['ほ', 'ho', 'both'],
       ['ま', 'ma'], ['み', 'mi'], ['む', 'mu'], ['め', 'me'], ['も', 'mo'],
       ['や', 'ya'], ['ゆ', 'yu'], ['よ', 'yo'],
       ['ら', 'ra'], ['り', 'ri'], ['る', 'ru'], ['れ', 're'], ['ろ', 'ro'],
@@ -101,11 +155,11 @@ class KatakanaQuiz extends Quiz {
   constructor() {
     super([
       ['ア', 'a'], ['イ', 'i'], ['ウ', 'u'], ['エ', 'e'], ['オ', 'o'],
-      ['カ', 'ka'], ['キ', 'ki'], ['ク', 'ku'], ['ケ', 'ke'], ['コ', 'ko'],
-      ['サ', 'sa'], ['シ', 'shi'], ['ス', 'su'], ['セ', 'se'], ['ソ', 'so'],
-      ['タ', 'ta'], ['チ', 'chi'], ['ツ', 'tsu'], ['テ', 'te'], ['ト', 'to'],
+      ['カ', 'ka', 'dakuten'], ['キ', 'ki', 'dakuten'], ['ク', 'ku', 'dakuten'], ['ケ', 'ke', 'dakuten'], ['コ', 'ko', 'dakuten'],
+      ['サ', 'sa', 'dakuten'], ['シ', 'shi', 'dakuten'], ['ス', 'su', 'dakuten'], ['セ', 'se', 'dakuten'], ['ソ', 'so', 'dakuten'],
+      ['タ', 'ta', 'dakuten'], ['チ', 'chi', 'dakuten'], ['ツ', 'tsu', 'dakuten'], ['テ', 'te', 'dakuten'], ['ト', 'to', 'dakuten'],
       ['ナ', 'na'], ['ニ', 'ni'], ['ヌ', 'nu'], ['ネ', 'ne'], ['ノ', 'no'],
-      ['ハ', 'ha'], ['ヒ', 'hi'], ['フ', 'fu'], ['ヘ', 'he'], ['ホ', 'ho'],
+      ['ハ', 'ha', 'both'], ['ヒ', 'hi', 'both'], ['フ', 'fu', 'both'], ['ヘ', 'he', 'both'], ['ホ', 'ho', 'both'],
       ['マ', 'ma'], ['ミ', 'mi'], ['ム', 'mu'], ['メ', 'me'], ['モ', 'mo'],
       ['ヤ', 'ya'], ['ユ', 'yu'], ['ヨ', 'yo'],
       ['ラ', 'ra'], ['リ', 'ri'], ['ル', 'ru'], ['レ', 're'], ['ロ', 'ro'],

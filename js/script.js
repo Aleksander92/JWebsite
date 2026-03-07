@@ -13,6 +13,13 @@ function initLocalStorage() {
   if (!localStorage.getItem('curTaskIndex')) {
     localStorage.setItem('curTaskIndex', 0);
   }
+  if (!localStorage.getItem('useDiacritics')) {
+    localStorage.setItem('useDiacritics', 'false');
+  }
+}
+
+function useDiacriticsEnabled() {
+  return localStorage.getItem('useDiacritics') === 'true';
 }
 
 function getQuizConfig(mode) {
@@ -48,14 +55,15 @@ function createGame(mode) {
   currentQuestionIndex = config.questionIndex;
   currentAnswerIndex = config.answerIndex;
 
-  currentQuiz.createGrid(currentAnswerIndex);
+  currentQuiz.setUseDiacritics(useDiacriticsEnabled());
+  currentQuiz.createGrid(currentAnswerIndex, useDiacriticsEnabled());
   currentQuiz.updateBadge();
   createTask();
   showStats();
 }
 
 function checkAnswerAndMakeNewTask(button) {
-  localStorage.setItem('userAnswer', button.textContent);
+  localStorage.setItem('userAnswer', button.dataset.answer || button.textContent);
 
   var previousTaskQuestions = document.getElementsByClassName('previous-task-question');
   for (const previousTaskQuestion of previousTaskQuestions) {
@@ -98,15 +106,17 @@ function showStats() {
 }
 
 function highlightGridButton() {
-  var correctButton = document.getElementById(GridFunctions.buttonGridId(localStorage.getItem('curTaskAnswer')));
-  if (correctButton) {
-    correctButton.classList.toggle('class-glow-correct');
-  }
+  var correctAnswer = localStorage.getItem('curTaskAnswer');
+  var userAnswer = localStorage.getItem('userAnswer');
+  var gridButtons = document.getElementsByClassName('button-grid');
 
-  if (localStorage.getItem('userAnswer') !== localStorage.getItem('curTaskAnswer')) {
-    var wrongButton = document.getElementById(GridFunctions.buttonGridId(localStorage.getItem('userAnswer')));
-    if (wrongButton) {
-      wrongButton.classList.toggle('class-glow-incorrect');
+  for (const button of gridButtons) {
+    if (button.dataset.answer === correctAnswer) {
+      button.classList.toggle('class-glow-correct');
+    }
+
+    if (userAnswer !== correctAnswer && button.dataset.answer === userAnswer) {
+      button.classList.toggle('class-glow-incorrect');
     }
   }
 }
@@ -124,6 +134,34 @@ function attachModeButtons() {
       createGame(mode);
     };
   }
+}
+
+
+function updateDiacriticsToggle() {
+  var button = document.getElementById('diacriticsToggle');
+  if (!button) {
+    return;
+  }
+
+  button.textContent = useDiacriticsEnabled() ? 'Remove diacritics' : 'Add diacritics';
+}
+
+function attachDiacriticsToggle() {
+  var button = document.getElementById('diacriticsToggle');
+  if (!button) {
+    return;
+  }
+
+  button.addEventListener('click', function () {
+    localStorage.setItem('useDiacritics', useDiacriticsEnabled() ? 'false' : 'true');
+    updateDiacriticsToggle();
+
+    if (document.querySelector('.grid')) {
+      createGame(Number(localStorage.getItem('mode')));
+    }
+  });
+
+  updateDiacriticsToggle();
 }
 
 function gameModesShowToggle() {
@@ -174,6 +212,7 @@ document.addEventListener('click', function (event) {
 
 initLocalStorage();
 attachModeButtons();
+attachDiacriticsToggle();
 if (document.querySelector('.grid')) {
   createGame(Number(localStorage.getItem('mode')));
 }
