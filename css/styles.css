@@ -305,6 +305,9 @@ body {
   width: 100%;
   flex: 1 1 50%;
   min-height: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   font-size: .68rem;
   line-height: 1.05;
   text-transform: lowercase;
