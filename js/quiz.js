@@ -57,7 +57,7 @@ class Quiz {
 
   makeKanaQuestionWithMarker(baseKana, markerType) {
     var markerSymbol = markerType === 'dakuten' ? DAKUTEN_SYMBOL : HANDAKUTEN_SYMBOL;
-    return baseKana + '\n' + markerSymbol;
+    return baseKana + markerSymbol;
   }
 
   createTaskPool(questionIndex, answerIndex) {
