@@ -18,7 +18,6 @@ body {
   font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   color: var(--text);
   background: radial-gradient(circle at top right, #eef2ff 0%, var(--bg) 45%, #edf3ff 100%);
-  min-height: 100vh;
 }
 
 .mobile-nav {
@@ -41,12 +40,10 @@ body {
 .main-layout {
   display: flex;
   padding: 0;
-  min-height: 100vh;
 }
 
 .sidebar {
   width: 15rem;
-  min-height: 100vh;
   padding: .5rem 1rem 1rem;
   background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
   border-right: 1px solid var(--border);
@@ -221,6 +218,21 @@ body {
   font-weight: 600;
 }
 
+.diacritics-toggle-btn {
+  background: #fff;
+  color: #374151;
+  border-color: #cfd4dc;
+  font-weight: 600;
+  font-size: .875rem;
+}
+
+.diacritics-toggle-btn:hover,
+.diacritics-toggle-btn:focus {
+  background: #f8fafc;
+  color: #1f2937;
+  border-color: #b9c1cb;
+}
+
 .grid .row {
   margin-bottom: .5rem;
 }
@@ -241,6 +253,58 @@ body {
 .button-grid:hover {
   background-color: #f9faff;
   transform: translateY(-1px);
+}
+
+
+.button-grid-diacritics {
+  display: flex;
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden;
+}
+
+.button-grid-main-glyph,
+.button-grid-marker-glyph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+}
+
+.button-grid-main-glyph {
+  flex: 0 0 80%;
+}
+
+.button-grid-marker-glyph {
+  flex: 0 0 20%;
+  border-left: 1px solid var(--border);
+  background-color: #f4f6ff;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70% 70%;
+  font-size: 1rem;
+}
+
+.button-grid-marker-glyph-double {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0;
+  background-image: none !important;
+}
+
+.button-grid-marker-half {
+  display: block;
+  width: 100%;
+  flex: 1 1 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 62% 62%;
+}
+
+.button-grid-marker-half + .button-grid-marker-half {
+  border-top: 1px solid var(--border);
 }
 
 .main-content-footer {
