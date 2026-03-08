@@ -22,6 +22,14 @@ function useDiacriticsEnabled() {
   return localStorage.getItem('useDiacritics') === 'true';
 }
 
+function modeSupportsDiacritics(mode) {
+  return mode !== Mode.YouonToRomaji && mode !== Mode.RomajiToYouon;
+}
+
+function shouldUseDiacritics(mode) {
+  return modeSupportsDiacritics(mode) && useDiacriticsEnabled();
+}
+
 function getQuizConfig(mode) {
   switch (mode) {
     case Mode.HiraganaToRomaji:
@@ -59,8 +67,10 @@ function createGame(mode) {
   currentQuestionIndex = config.questionIndex;
   currentAnswerIndex = config.answerIndex;
 
-  currentQuiz.setUseDiacritics(useDiacriticsEnabled());
-  currentQuiz.createGrid(currentAnswerIndex, useDiacriticsEnabled());
+  updateDiacriticsToggleVisibility(mode);
+
+  currentQuiz.setUseDiacritics(shouldUseDiacritics(mode));
+  currentQuiz.createGrid(currentAnswerIndex, shouldUseDiacritics(mode));
   currentQuiz.updateBadge();
   createTask();
   showStats();
@@ -148,6 +158,19 @@ function updateDiacriticsToggle() {
   }
 
   button.textContent = useDiacriticsEnabled() ? 'Remove diacritics' : 'Add diacritics';
+}
+
+function updateDiacriticsToggleVisibility(mode) {
+  var button = document.getElementById('diacriticsToggle');
+  if (!button) {
+    return;
+  }
+
+  if (modeSupportsDiacritics(mode)) {
+    button.classList.remove('d-none');
+  } else {
+    button.classList.add('d-none');
+  }
 }
 
 function attachDiacriticsToggle() {
