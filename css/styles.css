@@ -302,6 +302,26 @@ body {
   line-height: 1.2;
 }
 
+
+.button-grid-marker-image-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.button-grid-marker-image {
+  width: 1.05rem;
+  height: 1.05rem;
+  display: block;
+}
+
+.button-grid-marker-half .button-grid-marker-image {
+  width: .95rem;
+  height: .95rem;
+}
+
 .button-grid-marker-glyph-double {
   display: flex;
   flex-direction: column;

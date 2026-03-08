@@ -7,6 +7,8 @@ const Mode = Object.freeze({
 
 const DAKUTEN_SYMBOL = '゛';
 const HANDAKUTEN_SYMBOL = '゜';
+const DAKUTEN_IMAGE = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><line x1="11" y1="10" x2="15" y2="20" stroke="#111827" stroke-width="3.4" stroke-linecap="round"/><line x1="18" y1="10" x2="22" y2="20" stroke="#111827" stroke-width="3.4" stroke-linecap="round"/></svg>');
+const HANDAKUTEN_IMAGE = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><circle cx="16" cy="16" r="6.2" fill="none" stroke="#111827" stroke-width="2.8"/></svg>');
 
 class Quiz {
   constructor(alphabet, gaps, badgeText) {
@@ -58,6 +60,22 @@ class Quiz {
   makeKanaQuestionWithMarker(baseKana, markerType) {
     var markerSymbol = markerType === 'dakuten' ? DAKUTEN_SYMBOL : HANDAKUTEN_SYMBOL;
     return baseKana + markerSymbol;
+  }
+
+  makeMarkerImage(markerType, answerText) {
+    var markerImage = markerType === 'dakuten' ? DAKUTEN_IMAGE : HANDAKUTEN_IMAGE;
+    var marker = document.createElement('img');
+    marker.setAttribute('src', markerImage);
+    marker.setAttribute('alt', markerType);
+    marker.setAttribute('class', 'button-grid-marker-image');
+    marker.setAttribute('aria-hidden', 'true');
+
+    var wrapper = document.createElement('span');
+    wrapper.setAttribute('class', 'button-grid-marker-image-wrap');
+    wrapper.setAttribute('title', answerText);
+    wrapper.appendChild(marker);
+
+    return wrapper;
   }
 
   createTaskPool(questionIndex, answerIndex) {
@@ -126,19 +144,30 @@ class Quiz {
           var markerValueField = answerIndex === 1 ? 'romaji' : 'kana';
           var markerClassName = answerIndex === 1 ? 'button-grid-marker-glyph' : 'button-grid-marker-glyph button-grid-marker-kana';
           var markerHalfClassName = answerIndex === 1 ? 'button-grid-marker-half' : 'button-grid-marker-half button-grid-marker-kana';
+          var useMarkerImages = answerIndex === 0;
 
           baseAnswerButton.classList.add('button-grid-main-glyph');
           answerGroup.appendChild(baseAnswerButton);
 
           if (variants.length === 1) {
-            var markerButton = this.createAnswerButton(variants[0][markerValueField], variants[0][markerValueField], markerClassName);
+            var markerText = useMarkerImages ? '' : variants[0][markerValueField];
+            var markerButton = this.createAnswerButton(markerText, variants[0][markerValueField], markerClassName);
+            if (useMarkerImages) {
+              markerButton.appendChild(this.makeMarkerImage(variants[0].markerType, variants[0][markerValueField]));
+            }
             answerGroup.appendChild(markerButton);
           } else {
             var markerColumn = document.createElement('div');
             markerColumn.setAttribute('class', 'button-grid-marker-glyph-double');
 
-            var topButton = this.createAnswerButton(variants[0][markerValueField], variants[0][markerValueField], markerHalfClassName);
-            var bottomButton = this.createAnswerButton(variants[1][markerValueField], variants[1][markerValueField], markerHalfClassName);
+            var topText = useMarkerImages ? '' : variants[0][markerValueField];
+            var bottomText = useMarkerImages ? '' : variants[1][markerValueField];
+            var topButton = this.createAnswerButton(topText, variants[0][markerValueField], markerHalfClassName);
+            var bottomButton = this.createAnswerButton(bottomText, variants[1][markerValueField], markerHalfClassName);
+            if (useMarkerImages) {
+              topButton.appendChild(this.makeMarkerImage(variants[0].markerType, variants[0][markerValueField]));
+              bottomButton.appendChild(this.makeMarkerImage(variants[1].markerType, variants[1][markerValueField]));
+            }
 
             markerColumn.appendChild(topButton);
             markerColumn.appendChild(bottomButton);
