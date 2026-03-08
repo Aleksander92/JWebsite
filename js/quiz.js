@@ -142,24 +142,32 @@ class Quiz {
           var answerGroup = document.createElement('div');
           answerGroup.setAttribute('class', 'button-grid-diacritics');
           var markerValueField = answerIndex === 1 ? 'romaji' : 'kana';
-          var markerClassName = 'button-grid-marker-glyph';
-          var markerHalfClassName = 'button-grid-marker-half';
+          var markerClassName = answerIndex === 1 ? 'button-grid-marker-glyph' : 'button-grid-marker-glyph button-grid-marker-kana';
+          var markerHalfClassName = answerIndex === 1 ? 'button-grid-marker-half' : 'button-grid-marker-half button-grid-marker-kana';
+          var useMarkerImages = answerIndex === 0;
 
           baseAnswerButton.classList.add('button-grid-main-glyph');
           answerGroup.appendChild(baseAnswerButton);
 
           if (variants.length === 1) {
-            var markerButton = this.createAnswerButton('', variants[0][markerValueField], markerClassName);
-            markerButton.appendChild(this.makeMarkerImage(variants[0].markerType, variants[0][markerValueField]));
+            var markerText = useMarkerImages ? '' : variants[0][markerValueField];
+            var markerButton = this.createAnswerButton(markerText, variants[0][markerValueField], markerClassName);
+            if (useMarkerImages) {
+              markerButton.appendChild(this.makeMarkerImage(variants[0].markerType, variants[0][markerValueField]));
+            }
             answerGroup.appendChild(markerButton);
           } else {
             var markerColumn = document.createElement('div');
             markerColumn.setAttribute('class', 'button-grid-marker-glyph-double');
 
-            var topButton = this.createAnswerButton('', variants[0][markerValueField], markerHalfClassName);
-            var bottomButton = this.createAnswerButton('', variants[1][markerValueField], markerHalfClassName);
-            topButton.appendChild(this.makeMarkerImage(variants[0].markerType, variants[0][markerValueField]));
-            bottomButton.appendChild(this.makeMarkerImage(variants[1].markerType, variants[1][markerValueField]));
+            var topText = useMarkerImages ? '' : variants[0][markerValueField];
+            var bottomText = useMarkerImages ? '' : variants[1][markerValueField];
+            var topButton = this.createAnswerButton(topText, variants[0][markerValueField], markerHalfClassName);
+            var bottomButton = this.createAnswerButton(bottomText, variants[1][markerValueField], markerHalfClassName);
+            if (useMarkerImages) {
+              topButton.appendChild(this.makeMarkerImage(variants[0].markerType, variants[0][markerValueField]));
+              bottomButton.appendChild(this.makeMarkerImage(variants[1].markerType, variants[1][markerValueField]));
+            }
 
             markerColumn.appendChild(topButton);
             markerColumn.appendChild(bottomButton);
