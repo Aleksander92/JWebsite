@@ -30,6 +30,10 @@ function getQuizConfig(mode) {
       return { quiz: new KatakanaQuiz(), questionIndex: 0, answerIndex: 1 };
     case Mode.RomajiToKatakana:
       return { quiz: new KatakanaQuiz(), questionIndex: 1, answerIndex: 0 };
+    case Mode.YouonToRomaji:
+      return { quiz: new YouonQuiz(), questionIndex: 0, answerIndex: 1 };
+    case Mode.RomajiToYouon:
+      return { quiz: new YouonQuiz(), questionIndex: 1, answerIndex: 0 };
     case Mode.RomajiToHiragana:
     default:
       return { quiz: new HiraganaQuiz(), questionIndex: 1, answerIndex: 0 };

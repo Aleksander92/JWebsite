@@ -2,7 +2,9 @@ const Mode = Object.freeze({
   HiraganaToRomaji: 0,
   RomajiToHiragana: 1,
   KatakanaToRomaji: 2,
-  RomajiToKatakana: 3
+  RomajiToKatakana: 3,
+  YouonToRomaji: 4,
+  RomajiToYouon: 5
 });
 
 const DAKUTEN_SYMBOL = '゛';
@@ -11,10 +13,11 @@ const DAKUTEN_IMAGE = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="ht
 const HANDAKUTEN_IMAGE = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><circle cx="16" cy="16" r="6.2" fill="none" stroke="#111827" stroke-width="2.8"/></svg>');
 
 class Quiz {
-  constructor(alphabet, gaps, badgeText) {
+  constructor(alphabet, gaps, badgeText, colsPerRow) {
     this.alphabet = alphabet;
     this.gaps = gaps;
     this.badgeText = badgeText;
+    this.colsPerRow = colsPerRow || 5;
     this.useDiacritics = false;
   }
 
@@ -116,10 +119,10 @@ class Quiz {
 
     for (var rowIndex = 0; rowIndex < this.alphabet.length;) {
       var row = document.createElement('div');
-      row.setAttribute('class', 'row row-cols-5 grid-row');
+      row.setAttribute('class', 'row row-cols-' + this.colsPerRow + ' grid-row');
       grid.appendChild(row);
 
-      for (var c = 0; c < 5 && rowIndex < this.alphabet.length; c++, rowIndex++) {
+      for (var c = 0; c < this.colsPerRow && rowIndex < this.alphabet.length; c++, rowIndex++) {
         var col = document.createElement('div');
         col.setAttribute('class', 'col');
         col.style.display = 'flex';
@@ -235,5 +238,23 @@ class KatakanaQuiz extends Quiz {
       ['ラ', 'ra'], ['リ', 'ri'], ['ル', 'ru'], ['レ', 're'], ['ロ', 'ro'],
       ['ワ', 'wa'], ['ヲ', 'wo'], ['ン', 'n']
     ], [36, 37, 44, 45], '46 basic katakana');
+  }
+}
+
+class YouonQuiz extends Quiz {
+  constructor() {
+    super([
+      ['きゃ', 'kya'], ['きゅ', 'kyu'], ['きょ', 'kyo'],
+      ['しゃ', 'sha'], ['しゅ', 'shu'], ['しょ', 'sho'],
+      ['ちゃ', 'cha'], ['ちゅ', 'chu'], ['ちょ', 'cho'],
+      ['にゃ', 'nya'], ['にゅ', 'nyu'], ['にょ', 'nyo'],
+      ['ひゃ', 'hya'], ['ひゅ', 'hyu'], ['ひょ', 'hyo'],
+      ['みゃ', 'mya'], ['みゅ', 'myu'], ['みょ', 'myo'],
+      ['りゃ', 'rya'], ['りゅ', 'ryu'], ['りょ', 'ryo'],
+      ['ぎゃ', 'gya'], ['ぎゅ', 'gyu'], ['ぎょ', 'gyo'],
+      ['じゃ', 'jya'], ['じゅ', 'jyu'], ['じょ', 'jyo'],
+      ['びゃ', 'bya'], ['びゅ', 'byu'], ['びょ', 'byo'],
+      ['ぴゃ', 'pya'], ['ぴゅ', 'pyu'], ['ぴょ', 'pyo']
+    ], [], '33 basic youon', 3);
   }
 }
