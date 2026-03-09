@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="..\about.html" />
+    <None Include="..\css\media.css" />
     <None Include="..\css\styles.css" />
     <None Include="..\index.html" />
     <None Include="..\js\grid-functions.js" />

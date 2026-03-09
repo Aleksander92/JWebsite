@@ -223,18 +223,8 @@ body {
 }
 
 .diacritics-toggle-btn {
-  background: #fff;
-  color: #374151;
-  border-color: #cfd4dc;
   font-weight: 600;
   font-size: .875rem;
-}
-
-.diacritics-toggle-btn:hover,
-.diacritics-toggle-btn:focus {
-  background: #f8fafc;
-  color: #1f2937;
-  border-color: #b9c1cb;
 }
 
 .grid .row {

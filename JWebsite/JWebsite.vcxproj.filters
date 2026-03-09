@@ -36,6 +36,9 @@
     <None Include="..\js\quiz.js">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="..\css\media.css">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\commands.txt">
